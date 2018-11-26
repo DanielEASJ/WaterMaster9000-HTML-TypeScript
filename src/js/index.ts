@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-let URI = "https://restcoinservice-mandatoryassignment02.azurewebsites.net/api/"
+let URI = "https://restcoinservice-mandatoryassignment02.azurewebsites.net/api/" //update
 let outputDiv : HTMLDivElement;
 
 outputDiv = <HTMLDivElement> document.getElementById("outputDiv");
@@ -12,7 +12,7 @@ function getData()
 {
     let temp : string = "";
 
-    axios.get(URI + "/bids")
+    axios.get(URI + "/bids") //update 
 
 .then(function (response)
 {
