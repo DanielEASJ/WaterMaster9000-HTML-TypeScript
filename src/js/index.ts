@@ -16,10 +16,12 @@ function getData()
 
 .then(function (response)
 {
-
+    response.data.forEach(i => {
+        outputDiv.innerHTML = i.navn;
+    });
     temp = response.data.navn; //ændret til navn, burde være noget ala moisture
     console.log(response.data.navn); //ændret til navn, burde være noget ala moisture
-    outputDiv.innerHTML = temp
+    //outputDiv.innerHTML = temp
 
 })
 
