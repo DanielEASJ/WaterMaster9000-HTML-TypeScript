@@ -1,23 +1,25 @@
 import axios from 'axios';
 
+let URI = "https://restcoinservice-mandatoryassignment02.azurewebsites.net/api/"
 let outputDiv : HTMLDivElement;
 
 outputDiv = <HTMLDivElement> document.getElementById("outputDiv");
 
-outputDiv.addEventListener("load", getData);
+// outputDiv.addEventListener("loadend", getData);
+ getData();
 
 function getData()
 {
     let temp : string = "";
 
-    axios.get(this.URI,)
-    
+    axios.get(URI + "/bids")
+
 .then(function (response)
 {
 
-    temp = response.data.words[0];
-    console.log(response.data.words[0]);
-    
+    temp = response.data.navn; //ændret til navn, burde være noget ala moisture
+    console.log(response.data.navn); //ændret til navn, burde være noget ala moisture
+    outputDiv.innerHTML = temp
 
 })
 
