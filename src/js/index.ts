@@ -1,4 +1,7 @@
 import axios from 'axios';
+import { Statistics } from './statistics';
+
+let stats = new Statistics();
 
 let URI = "https://restcoinservice-mandatoryassignment02.azurewebsites.net/api/" //update
 let outputDiv : HTMLDivElement;
@@ -16,11 +19,11 @@ function getData()
 
 .then(function (response)
 {
-    response.data.forEach(i => {
-        outputDiv.innerHTML = i.navn;
-    });
-    temp = response.data.navn; //ændret til navn, burde være noget ala moisture
-    console.log(response.data.navn); //ændret til navn, burde være noget ala moisture
+    // response.data.forEach(i => {
+    //     outputDiv.innerHTML = i.navn;
+    // });
+    // temp = response.data.navn; //ændret til navn, burde være noget ala moisture
+    // console.log(response.data.navn); //ændret til navn, burde være noget ala moisture
     //outputDiv.innerHTML = temp
 
 })

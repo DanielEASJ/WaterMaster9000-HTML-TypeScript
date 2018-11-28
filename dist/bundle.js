@@ -2003,7 +2003,10 @@ module.exports = __webpack_require__.p + "index.htm";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _statistics__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./statistics */ "./src/js/statistics.ts");
 
+
+var stats = new _statistics__WEBPACK_IMPORTED_MODULE_1__["Statistics"]();
 var URI = "https://restcoinservice-mandatoryassignment02.azurewebsites.net/api/"; //update
 var outputDiv;
 outputDiv = document.getElementById("outputDiv");
@@ -2013,11 +2016,11 @@ function getData() {
     var temp = "";
     axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(URI + "/bids") //update 
         .then(function (response) {
-        response.data.forEach(function (i) {
-            outputDiv.innerHTML = i.navn;
-        });
-        temp = response.data.navn; //ændret til navn, burde være noget ala moisture
-        console.log(response.data.navn); //ændret til navn, burde være noget ala moisture
+        // response.data.forEach(i => {
+        //     outputDiv.innerHTML = i.navn;
+        // });
+        // temp = response.data.navn; //ændret til navn, burde være noget ala moisture
+        // console.log(response.data.navn); //ændret til navn, burde være noget ala moisture
         //outputDiv.innerHTML = temp
     })
         .catch(function (error) {
@@ -2025,6 +2028,65 @@ function getData() {
     });
     return temp;
 }
+
+
+/***/ }),
+
+/***/ "./src/js/statistics.ts":
+/*!******************************!*\
+  !*** ./src/js/statistics.ts ***!
+  \******************************/
+/*! exports provided: Statistics */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Statistics", function() { return Statistics; });
+var Statistics = /** @class */ (function () {
+    function Statistics() {
+        this.Start();
+    }
+    Statistics.prototype.Start = function () {
+        var mainDiv = document.getElementById("statistics");
+        var accordion = document.createElement("div");
+        accordion.setAttribute("class", "accordion");
+        accordion.setAttribute("id", "accordion");
+        for (var i = 0; i < 5; i++) {
+            var card = document.createElement("div");
+            card.setAttribute("class", "card");
+            var cardHeader = document.createElement("div");
+            cardHeader.setAttribute("class", "card-header");
+            cardHeader.setAttribute("id", "heading" + i.toString());
+            var mb0 = document.createElement("h5");
+            mb0.setAttribute("class", "mb-0");
+            var btn = document.createElement("button");
+            btn.setAttribute("class", "btn btn-link");
+            btn.setAttribute("type", "button");
+            btn.setAttribute("data-toggle", "collapse");
+            btn.setAttribute("data-target", "#collapse" + i.toString());
+            btn.setAttribute("aria-expanded", "true");
+            btn.setAttribute("aria-controls", "collapse" + i.toString());
+            var collapse = document.createElement("div");
+            collapse.setAttribute("class", "collapse");
+            collapse.setAttribute("id", "collapse" + i.toString());
+            collapse.setAttribute("aria-labelledby", "heading" + i.toString());
+            collapse.setAttribute("data-parent", "#accordion");
+            var cardBody = document.createElement("div");
+            cardBody.setAttribute("class", "card-body");
+            mainDiv.appendChild(accordion);
+            accordion.appendChild(card);
+            card.appendChild(cardHeader);
+            cardHeader.appendChild(mb0);
+            mb0.appendChild(btn);
+            accordion.appendChild(collapse);
+            collapse.appendChild(cardBody);
+            btn.innerText = "#" + i.toString() + " Sensor";
+            cardBody.innerText = "Hello. This is Sensor #" + i.toString();
+        }
+    };
+    return Statistics;
+}());
+
 
 
 /***/ }),
