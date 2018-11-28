@@ -1,12 +1,52 @@
+import axios from 'axios';
+
+interface Sensor
+{
+    macAddress: string,
+    name: string,
+    limitUp: number,
+    limitLow: number,
+    fK_UserId: number,
+    data: SensorData
+}
+
+interface SensorData
+{
+    id: number,
+    humidity: number,
+    date: string,
+    fK_MacAddress: string
+}
+
 export class Statistics
 {
+    private BASEURI: string = "https://watermasterapi.azurewebsites.net/api/sensor/00:20:18:61:f1:8a";
+
     constructor()
     {
-        this.Start();
     }
 
-    Start(): void
+    async ApiCall()
     {
+        let temp;
+
+        await axios.get(this.BASEURI)
+        .then(function(response)
+        {
+            temp = response.data as Sensor;
+            //console.log(sensor);
+        })
+        .catch(function(error)
+        {
+            //console.log(error);
+        });
+
+        this.Start(temp);
+    }
+
+    Start(sensor: any): void
+    {
+        console.log(sensor.name);
         let mainDiv: HTMLDivElement = <HTMLDivElement> document.getElementById("statistics");
 
         let accordion: HTMLDivElement = document.createElement("div");
@@ -50,8 +90,10 @@ export class Statistics
             accordion.appendChild(collapse);
             collapse.appendChild(cardBody);
 
-            btn.innerText = "#" + i.toString() + " Sensor";
-            cardBody.innerText = "Hello. This is Sensor #" + i.toString();
+            btn.innerText = "#" + (i + 1).toString() + " Sensor";
+            cardBody.appendChild(document.createElement("p")).innerText = "Fugtighed: " + sensor.data.humidity;
+            cardBody.appendChild(document.createElement("p")).innerText = "Tidspunkt: " + sensor.data.date;
+            cardBody.appendChild(document.createElement("p")).innerText = "MAC-Address: " + sensor.macAddress;
         }
     }
 }

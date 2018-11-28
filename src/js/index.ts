@@ -2,6 +2,7 @@ import axios from 'axios';
 import { Statistics } from './statistics';
 
 let stats = new Statistics();
+stats.ApiCall();
 
 let URI = "https://restcoinservice-mandatoryassignment02.azurewebsites.net/api/" //update
 let outputDiv : HTMLDivElement;

@@ -3,7 +3,9 @@
 
 body {
   font-size: 1.1rem;
-  color: #323232; }
+  color: #323232;
+  overflow-y: scoll;
+  padding-bottom: 100px; }
 
 h1, h2, h3, h4 {
   font-weight: bold;
