@@ -1,10 +1,12 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,700,900);* {
   font-family: "Roboto", sans-serif; }
 
+html, body {
+  overflow-y: scoll; }
+
 body {
   font-size: 1.1rem;
   color: #323232;
-  overflow-y: scoll;
   padding-bottom: 100px; }
 
 h1, h2, h3, h4 {

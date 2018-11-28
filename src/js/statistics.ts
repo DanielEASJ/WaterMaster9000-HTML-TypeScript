@@ -34,26 +34,20 @@ export class Statistics
         .then(function(response)
         {
             temp = response.data as Sensor;
-            //console.log(sensor);
-        })
-        .catch(function(error)
-        {
-            //console.log(error);
         });
 
-        this.Start(temp);
+        this.SetUpHTML(temp);
     }
 
-    Start(sensor: any): void
+    SetUpHTML(sensor: any): void
     {
-        console.log(sensor.name);
         let mainDiv: HTMLDivElement = <HTMLDivElement> document.getElementById("statistics");
 
         let accordion: HTMLDivElement = document.createElement("div");
         accordion.setAttribute("class", "accordion");
         accordion.setAttribute("id", "accordion");
 
-        for (let i = 0; i < 5; i++)
+        for (let i = 0; i < 1; i++)
         {
             let card: HTMLDivElement = document.createElement("div");
             card.setAttribute("class", "card");
@@ -91,6 +85,7 @@ export class Statistics
             collapse.appendChild(cardBody);
 
             btn.innerText = "#" + (i + 1).toString() + " Sensor";
+            cardBody.appendChild(document.createElement("p")).innerText = "Navn: " + sensor.name;
             cardBody.appendChild(document.createElement("p")).innerText = "Fugtighed: " + sensor.data.humidity;
             cardBody.appendChild(document.createElement("p")).innerText = "Tidspunkt: " + sensor.data.date;
             cardBody.appendChild(document.createElement("p")).innerText = "MAC-Address: " + sensor.macAddress;

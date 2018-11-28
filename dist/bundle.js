@@ -2001,34 +2001,10 @@ module.exports = __webpack_require__.p + "index.htm";
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _statistics__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./statistics */ "./src/js/statistics.ts");
+/* harmony import */ var _statistics__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./statistics */ "./src/js/statistics.ts");
 
-
-var stats = new _statistics__WEBPACK_IMPORTED_MODULE_1__["Statistics"]();
+var stats = new _statistics__WEBPACK_IMPORTED_MODULE_0__["Statistics"]();
 stats.ApiCall();
-var URI = "https://restcoinservice-mandatoryassignment02.azurewebsites.net/api/"; //update
-var outputDiv;
-outputDiv = document.getElementById("outputDiv");
-// outputDiv.addEventListener("loadend", getData);
-getData();
-function getData() {
-    var temp = "";
-    axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(URI + "/bids") //update 
-        .then(function (response) {
-        // response.data.forEach(i => {
-        //     outputDiv.innerHTML = i.navn;
-        // });
-        // temp = response.data.navn; //ændret til navn, burde være noget ala moisture
-        // console.log(response.data.navn); //ændret til navn, burde være noget ala moisture
-        //outputDiv.innerHTML = temp
-    })
-        .catch(function (error) {
-        console.log(error);
-    });
-    return temp;
-}
 
 
 /***/ }),
@@ -2093,26 +2069,21 @@ var Statistics = /** @class */ (function () {
                     case 0: return [4 /*yield*/, axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(this.BASEURI)
                             .then(function (response) {
                             temp = response.data;
-                            //console.log(sensor);
-                        })
-                            .catch(function (error) {
-                            //console.log(error);
                         })];
                     case 1:
                         _a.sent();
-                        this.Start(temp);
+                        this.SetUpHTML(temp);
                         return [2 /*return*/];
                 }
             });
         });
     };
-    Statistics.prototype.Start = function (sensor) {
-        console.log(sensor.name);
+    Statistics.prototype.SetUpHTML = function (sensor) {
         var mainDiv = document.getElementById("statistics");
         var accordion = document.createElement("div");
         accordion.setAttribute("class", "accordion");
         accordion.setAttribute("id", "accordion");
-        for (var i = 0; i < 5; i++) {
+        for (var i = 0; i < 1; i++) {
             var card = document.createElement("div");
             card.setAttribute("class", "card");
             var cardHeader = document.createElement("div");
@@ -2142,6 +2113,7 @@ var Statistics = /** @class */ (function () {
             accordion.appendChild(collapse);
             collapse.appendChild(cardBody);
             btn.innerText = "#" + (i + 1).toString() + " Sensor";
+            cardBody.appendChild(document.createElement("p")).innerText = "Navn: " + sensor.name;
             cardBody.appendChild(document.createElement("p")).innerText = "Fugtighed: " + sensor.data.humidity;
             cardBody.appendChild(document.createElement("p")).innerText = "Tidspunkt: " + sensor.data.date;
             cardBody.appendChild(document.createElement("p")).innerText = "MAC-Address: " + sensor.macAddress;
