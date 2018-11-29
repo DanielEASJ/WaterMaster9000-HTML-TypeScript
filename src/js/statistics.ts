@@ -24,6 +24,9 @@ export class Statistics
     private userid: number = 1;
     private BASEURI: string = "https://watermasterapi.azurewebsites.net/api/sensor/";
     private sensorID: number = 1;
+    
+    private mainDiv: HTMLDivElement = <HTMLDivElement> document.getElementById("statistics");
+    private accordion: HTMLDivElement = document.createElement("div");
 
     private sensorList: Array<Sensor>;
 
@@ -31,15 +34,13 @@ export class Statistics
     {
     }
 
-    UpdateSensor(obj: number): EventListenerObject
-    {
-        
-
-        return;
-    }
-
     async GetByUser()
     {
+        this.accordion.setAttribute("class", "accordion");
+        this.accordion.setAttribute("id", "accordion");
+
+        this.mainDiv.appendChild(this.accordion);
+
         let userSensors: Array<string>;
 
         await axios.get(this.BASEURI + "userid/" + this.userid)
@@ -66,12 +67,6 @@ export class Statistics
 
     SetUpHTML(sensor: any): void
     {
-        let mainDiv: HTMLDivElement = <HTMLDivElement> document.getElementById("statistics");
-
-        let accordion: HTMLDivElement = document.createElement("div");
-        accordion.setAttribute("class", "accordion");
-        accordion.setAttribute("id", "accordion");
-
         // case
         let card: HTMLDivElement = document.createElement("div");
         card.setAttribute("class", "card");
@@ -176,12 +171,11 @@ export class Statistics
         
 
         //appendChild
-        mainDiv.appendChild(accordion);
-        accordion.appendChild(card);
+        this.accordion.appendChild(card);
         card.appendChild(cardHeader);
         cardHeader.appendChild(mb0);
         mb0.appendChild(btn);
-        accordion.appendChild(collapse);
+        this.accordion.appendChild(collapse);
         collapse.appendChild(cardBody);
 
         // fyld text til body

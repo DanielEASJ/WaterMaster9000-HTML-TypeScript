@@ -2062,19 +2062,22 @@ var Statistics = /** @class */ (function () {
         this.userid = 1;
         this.BASEURI = "https://watermasterapi.azurewebsites.net/api/sensor/";
         this.sensorID = 1;
+        this.mainDiv = document.getElementById("statistics");
+        this.accordion = document.createElement("div");
     }
-    Statistics.prototype.UpdateSensor = function (obj) {
-        return;
-    };
     Statistics.prototype.GetByUser = function () {
         return __awaiter(this, void 0, void 0, function () {
             var userSensors, _loop_1, this_1, index;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(this.BASEURI + "userid/" + this.userid)
-                            .then(function (response) {
-                            userSensors = response.data;
-                        })];
+                    case 0:
+                        this.accordion.setAttribute("class", "accordion");
+                        this.accordion.setAttribute("id", "accordion");
+                        this.mainDiv.appendChild(this.accordion);
+                        return [4 /*yield*/, axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(this.BASEURI + "userid/" + this.userid)
+                                .then(function (response) {
+                                userSensors = response.data;
+                            })];
                     case 1:
                         _a.sent();
                         _loop_1 = function (index) {
@@ -2112,10 +2115,6 @@ var Statistics = /** @class */ (function () {
         });
     };
     Statistics.prototype.SetUpHTML = function (sensor) {
-        var mainDiv = document.getElementById("statistics");
-        var accordion = document.createElement("div");
-        accordion.setAttribute("class", "accordion");
-        accordion.setAttribute("id", "accordion");
         // case
         var card = document.createElement("div");
         card.setAttribute("class", "card");
@@ -2192,12 +2191,11 @@ var Statistics = /** @class */ (function () {
         tableRowUpperInput.setAttribute("placeholder", "indtast øvre grænse her");
         tableRowUpperInput.value = sensor.limitUp;
         //appendChild
-        mainDiv.appendChild(accordion);
-        accordion.appendChild(card);
+        this.accordion.appendChild(card);
         card.appendChild(cardHeader);
         cardHeader.appendChild(mb0);
         mb0.appendChild(btn);
-        accordion.appendChild(collapse);
+        this.accordion.appendChild(collapse);
         collapse.appendChild(cardBody);
         // fyld text til body
         var pname = cardBody.appendChild(document.createElement("p"));
