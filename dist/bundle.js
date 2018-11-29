@@ -2115,11 +2115,14 @@ var Statistics = /** @class */ (function () {
             var table = document.createElement("table");
             table.setAttribute("class", "table table-striped");
             //table collums
+            var tabaleThead = document.createElement("thead"); // thead requered for bootstrap
             var tablecolumnRow = document.createElement("tr"); //row til columns
             var tablecolumn0 = document.createElement("th"); // paragraph column
-            // tablecolumn0.innerHTML = "test"
+            tablecolumn0.innerHTML = "Titler";
             var tablecolumn1 = document.createElement("th"); // input column
-            // tablecolumn1.innerHTML = "test 2"
+            tablecolumn1.innerHTML = "Input";
+            // table tbody (used by bootstrap)
+            var tabletbody = document.createElement("tbody");
             // table row
             var tableRow0 = document.createElement("tr");
             tableRow0.setAttribute("id", "row0");
@@ -2131,6 +2134,8 @@ var Statistics = /** @class */ (function () {
             var tableRowName = document.createElement("td");
             tableRowName.setAttribute("id", "rowName" + i.toString());
             tableRowName.innerHTML = "Sensor navn: ";
+            var tableRowNameTd = document.createElement("td");
+            // input name
             var tableRowNameInput = document.createElement("input");
             tableRowNameInput.setAttribute("id", "rowNameInput");
             tableRowNameInput.setAttribute("placeholder", "indtast navn her");
@@ -2138,6 +2143,8 @@ var Statistics = /** @class */ (function () {
             var tableRowLower = document.createElement("td");
             tableRowLower.setAttribute("id", "rowLower" + i.toString());
             tableRowLower.innerHTML = "laveste grænse: ";
+            var tableRowLowerTd = document.createElement("td");
+            // input lower
             var tableRowLowerInput = document.createElement("input");
             tableRowLowerInput.setAttribute("id", "rowLowerInput");
             tableRowLowerInput.setAttribute("placeholder", "indtast laveste grænse her");
@@ -2145,6 +2152,8 @@ var Statistics = /** @class */ (function () {
             var tableRowUpper = document.createElement("td");
             tableRowUpper.setAttribute("id", "rowUpper" + i.toString());
             tableRowUpper.innerHTML = "normal grænse: ";
+            var tableRowUpperTd = document.createElement("td");
+            // input Upper
             var tableRowUpperInput = document.createElement("input");
             tableRowUpperInput.setAttribute("id", "rowUpperInput");
             tableRowUpperInput.setAttribute("placeholder", "indtast normal grænse her");
@@ -2158,18 +2167,23 @@ var Statistics = /** @class */ (function () {
             collapse.appendChild(cardBody);
             // table append
             collapse.appendChild(table);
-            table.appendChild(tablecolumnRow);
+            table.appendChild(tabaleThead);
+            tabaleThead.appendChild(tablecolumnRow);
             tablecolumnRow.appendChild(tablecolumn0);
             tablecolumnRow.appendChild(tablecolumn1);
-            table.appendChild(tableRow0);
+            table.appendChild(tabletbody);
+            tabletbody.appendChild(tableRow0);
             tableRow0.appendChild(tableRowName);
-            tableRow0.appendChild(tableRowNameInput);
-            table.appendChild(tableRow1);
+            tableRow0.appendChild(tableRowNameTd);
+            tableRowNameTd.appendChild(tableRowNameInput);
+            tabletbody.appendChild(tableRow1);
             tableRow1.appendChild(tableRowLower);
-            tableRow1.appendChild(tableRowLowerInput);
-            table.appendChild(tableRow2);
+            tableRow1.appendChild(tableRowLowerTd);
+            tableRowLowerTd.appendChild(tableRowLowerInput);
+            tabletbody.appendChild(tableRow2);
             tableRow2.appendChild(tableRowUpper);
-            tableRow2.appendChild(tableRowUpperInput);
+            tableRow2.appendChild(tableRowUpperTd);
+            tableRowUpperTd.appendChild(tableRowUpperInput);
             // button text
             btn.innerText = "#" + (i + 1).toString() + " Sensor";
             // fyld text til body
