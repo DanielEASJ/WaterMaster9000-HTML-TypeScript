@@ -2002,9 +2002,13 @@ module.exports = __webpack_require__.p + "index.htm";
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _statistics__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./statistics */ "./src/js/statistics.ts");
+/* harmony import */ var _tables__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tables */ "./src/js/tables.ts");
+
 
 var stats = new _statistics__WEBPACK_IMPORTED_MODULE_0__["Statistics"]();
 stats.ApiCall();
+var table = new _tables__WEBPACK_IMPORTED_MODULE_1__["Tables"](3, 5);
+document.getElementById("main").appendChild(table.makeTable());
 
 
 /***/ }),
@@ -2109,7 +2113,7 @@ var Statistics = /** @class */ (function () {
             //table
             //table create
             var table = document.createElement("table");
-            table.setAttribute("id", "table" + i.toString()); // !!
+            table.setAttribute("class", "table table-striped");
             //table collums
             var tablecolumnRow = document.createElement("tr"); //row til columns
             var tablecolumn0 = document.createElement("th"); // paragraph column
@@ -2125,21 +2129,21 @@ var Statistics = /** @class */ (function () {
             tableRow2.setAttribute("id", "row2");
             // table name
             var tableRowName = document.createElement("td");
-            tableRowName.setAttribute("id", "rowName" + i.toString()); // !!
+            tableRowName.setAttribute("id", "rowName" + i.toString());
             tableRowName.innerHTML = "Sensor navn: ";
             var tableRowNameInput = document.createElement("input");
             tableRowNameInput.setAttribute("id", "rowNameInput");
             tableRowNameInput.setAttribute("placeholder", "indtast navn her");
             // table lower
             var tableRowLower = document.createElement("td");
-            tableRowLower.setAttribute("id", "rowLower" + i.toString()); // !!
+            tableRowLower.setAttribute("id", "rowLower" + i.toString());
             tableRowLower.innerHTML = "laveste grænse: ";
             var tableRowLowerInput = document.createElement("input");
             tableRowLowerInput.setAttribute("id", "rowLowerInput");
             tableRowLowerInput.setAttribute("placeholder", "indtast laveste grænse her");
             // table upper
             var tableRowUpper = document.createElement("td");
-            tableRowUpper.setAttribute("id", "rowUpper" + i.toString()); // !!
+            tableRowUpper.setAttribute("id", "rowUpper" + i.toString());
             tableRowUpper.innerHTML = "normal grænse: ";
             var tableRowUpperInput = document.createElement("input");
             tableRowUpperInput.setAttribute("id", "rowUpperInput");
@@ -2176,6 +2180,45 @@ var Statistics = /** @class */ (function () {
         }
     };
     return Statistics;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/js/tables.ts":
+/*!**************************!*\
+  !*** ./src/js/tables.ts ***!
+  \**************************/
+/*! exports provided: Tables */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Tables", function() { return Tables; });
+var Tables = /** @class */ (function () {
+    function Tables(rows, columns) {
+        this.columns = columns;
+        this.rows = rows;
+    }
+    Tables.prototype.makeTable = function () {
+        var table = document.createElement("table");
+        table.setAttribute("class", "table table-striped");
+        var thead = table.createTHead();
+        var tbody = table.createTBody();
+        var theadrow = thead.insertRow(0);
+        for (var r = 0; r < this.columns; r++) {
+            theadrow.insertCell(r).innerText = "#" + r.toString() + " Head";
+        }
+        for (var r = 0; r < this.rows; r++) {
+            var tbodyrow = tbody.insertRow(r);
+            for (var c = 0; c < this.columns; c++) {
+                tbodyrow.insertCell(c).innerText = "Row:" + r.toString() + ", Cell:" + c.toString();
+            }
+        }
+        return table;
+    };
+    return Tables;
 }());
 
 
