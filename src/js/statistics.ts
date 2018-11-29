@@ -81,7 +81,7 @@ export class Statistics
             //table
             //table create
             let table: HTMLTableElement = document.createElement("table");
-            table.setAttribute("id", "table" + i.toString()); // !!
+            table.setAttribute("class", "table table-striped");
 
             //table collums
             let tablecolumnRow: HTMLTableRowElement = document.createElement("tr"); //row til columns
@@ -106,7 +106,7 @@ export class Statistics
 
             // table name
             let tableRowName : HTMLTableDataCellElement = document.createElement("td")
-            tableRowName.setAttribute("id", "rowName" + i.toString()); // !!
+            tableRowName.setAttribute("id", "rowName" + i.toString());
             tableRowName.innerHTML = "Sensor navn: "
 
             let tableRowNameInput : HTMLInputElement = document.createElement("input");
@@ -115,7 +115,7 @@ export class Statistics
 
             // table lower
             let tableRowLower : HTMLTableDataCellElement = document.createElement("td");
-            tableRowLower.setAttribute("id", "rowLower" + i.toString()); // !!
+            tableRowLower.setAttribute("id", "rowLower" + i.toString());
             tableRowLower.innerHTML = "laveste grænse: "
 
             let tableRowLowerInput : HTMLInputElement = document.createElement("input");
@@ -124,7 +124,7 @@ export class Statistics
 
             // table upper
             let tableRowUpper : HTMLTableDataCellElement = document.createElement("td");
-            tableRowUpper.setAttribute("id", "rowUpper" + i.toString()); // !!
+            tableRowUpper.setAttribute("id", "rowUpper" + i.toString());
             tableRowUpper.innerHTML = "normal grænse: "
 
             let tableRowUpperInput : HTMLInputElement = document.createElement("input");
