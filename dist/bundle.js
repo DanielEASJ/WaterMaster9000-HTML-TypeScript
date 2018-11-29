@@ -2002,13 +2002,9 @@ module.exports = __webpack_require__.p + "index.htm";
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _statistics__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./statistics */ "./src/js/statistics.ts");
-/* harmony import */ var _tables__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tables */ "./src/js/tables.ts");
-
 
 var stats = new _statistics__WEBPACK_IMPORTED_MODULE_0__["Statistics"]();
-stats.ApiCall();
-var table = new _tables__WEBPACK_IMPORTED_MODULE_1__["Tables"](3, 5);
-document.getElementById("main").appendChild(table.makeTable());
+stats.GetByUser();
 
 
 /***/ }),
@@ -2063,21 +2059,54 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 var Statistics = /** @class */ (function () {
     function Statistics() {
-        this.BASEURI = "https://watermasterapi.azurewebsites.net/api/sensor/00:20:18:61:f1:8a";
+        this.userid = 1;
+        this.BASEURI = "https://watermasterapi.azurewebsites.net/api/sensor/";
+        this.sensorID = 1;
     }
-    Statistics.prototype.ApiCall = function () {
+    Statistics.prototype.UpdateSensor = function (obj) {
+        return;
+    };
+    Statistics.prototype.GetByUser = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var temp;
+            var userSensors, _loop_1, this_1, index;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(this.BASEURI)
+                    case 0: return [4 /*yield*/, axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(this.BASEURI + "userid/" + this.userid)
                             .then(function (response) {
-                            temp = response.data;
+                            userSensors = response.data;
                         })];
                     case 1:
                         _a.sent();
-                        this.SetUpHTML(temp);
-                        return [2 /*return*/];
+                        _loop_1 = function (index) {
+                            var temp;
+                            return __generator(this, function (_a) {
+                                switch (_a.label) {
+                                    case 0: return [4 /*yield*/, axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(this_1.BASEURI + "mac/" + userSensors[index])
+                                            .then(function (response) {
+                                            temp = response.data;
+                                            //this.sensorList.push(temp);
+                                        })];
+                                    case 1:
+                                        _a.sent();
+                                        this_1.SetUpHTML(temp);
+                                        this_1.sensorID++;
+                                        return [2 /*return*/];
+                                }
+                            });
+                        };
+                        this_1 = this;
+                        index = 0;
+                        _a.label = 2;
+                    case 2:
+                        if (!(index < userSensors.length)) return [3 /*break*/, 5];
+                        return [5 /*yield**/, _loop_1(index)];
+                    case 3:
+                        _a.sent();
+                        _a.label = 4;
+                    case 4:
+                        index++;
+                        return [3 /*break*/, 2];
+                    case 5: return [2 /*return*/];
                 }
             });
         });
@@ -2087,152 +2116,150 @@ var Statistics = /** @class */ (function () {
         var accordion = document.createElement("div");
         accordion.setAttribute("class", "accordion");
         accordion.setAttribute("id", "accordion");
-        for (var i = 0; i < 1; i++) {
-            // case
-            var card = document.createElement("div");
-            card.setAttribute("class", "card");
-            var cardHeader = document.createElement("div");
-            cardHeader.setAttribute("class", "card-header");
-            cardHeader.setAttribute("id", "heading" + i.toString());
-            var mb0 = document.createElement("h5");
-            mb0.setAttribute("class", "mb-0");
-            var btn = document.createElement("button");
-            btn.setAttribute("class", "btn btn-link");
-            btn.setAttribute("type", "button");
-            btn.setAttribute("data-toggle", "collapse");
-            btn.setAttribute("data-target", "#collapse" + i.toString());
-            btn.setAttribute("aria-expanded", "true");
-            btn.setAttribute("aria-controls", "collapse" + i.toString());
-            var collapse = document.createElement("div");
-            collapse.setAttribute("class", "collapse");
-            collapse.setAttribute("id", "collapse" + i.toString());
-            collapse.setAttribute("aria-labelledby", "heading" + i.toString());
-            collapse.setAttribute("data-parent", "#accordion");
-            var cardBody = document.createElement("div");
-            cardBody.setAttribute("class", "card-body");
-            //table
-            //table create
-            var table = document.createElement("table");
-            table.setAttribute("class", "table table-striped");
-            //table collums
-            var tabaleThead = document.createElement("thead"); // thead requered for bootstrap
-            var tablecolumnRow = document.createElement("tr"); //row til columns
-            var tablecolumn0 = document.createElement("th"); // paragraph column
-            tablecolumn0.innerHTML = "Titler";
-            var tablecolumn1 = document.createElement("th"); // input column
-            tablecolumn1.innerHTML = "Input";
-            // table tbody (used by bootstrap)
-            var tabletbody = document.createElement("tbody");
-            // table row
-            var tableRow0 = document.createElement("tr");
-            tableRow0.setAttribute("id", "row0");
-            var tableRow1 = document.createElement("tr");
-            tableRow1.setAttribute("id", "row1");
-            var tableRow2 = document.createElement("tr");
-            tableRow2.setAttribute("id", "row2");
-            // table name
-            var tableRowName = document.createElement("td");
-            tableRowName.setAttribute("id", "rowName" + i.toString());
-            tableRowName.innerHTML = "Sensor navn: ";
-            var tableRowNameTd = document.createElement("td");
-            // input name
-            var tableRowNameInput = document.createElement("input");
-            tableRowNameInput.setAttribute("id", "rowNameInput");
-            tableRowNameInput.setAttribute("placeholder", "indtast navn her");
-            // table lower
-            var tableRowLower = document.createElement("td");
-            tableRowLower.setAttribute("id", "rowLower" + i.toString());
-            tableRowLower.innerHTML = "laveste grænse: ";
-            var tableRowLowerTd = document.createElement("td");
-            // input lower
-            var tableRowLowerInput = document.createElement("input");
-            tableRowLowerInput.setAttribute("id", "rowLowerInput");
-            tableRowLowerInput.setAttribute("placeholder", "indtast laveste grænse her");
-            // table upper
-            var tableRowUpper = document.createElement("td");
-            tableRowUpper.setAttribute("id", "rowUpper" + i.toString());
-            tableRowUpper.innerHTML = "normal grænse: ";
-            var tableRowUpperTd = document.createElement("td");
-            // input Upper
-            var tableRowUpperInput = document.createElement("input");
-            tableRowUpperInput.setAttribute("id", "rowUpperInput");
-            tableRowUpperInput.setAttribute("placeholder", "indtast normal grænse her");
-            //appendChild
-            mainDiv.appendChild(accordion);
-            accordion.appendChild(card);
-            card.appendChild(cardHeader);
-            cardHeader.appendChild(mb0);
-            mb0.appendChild(btn);
-            accordion.appendChild(collapse);
-            collapse.appendChild(cardBody);
-            // table append
-            collapse.appendChild(table);
-            table.appendChild(tabaleThead);
-            tabaleThead.appendChild(tablecolumnRow);
-            tablecolumnRow.appendChild(tablecolumn0);
-            tablecolumnRow.appendChild(tablecolumn1);
-            table.appendChild(tabletbody);
-            tabletbody.appendChild(tableRow0);
-            tableRow0.appendChild(tableRowName);
-            tableRow0.appendChild(tableRowNameTd);
-            tableRowNameTd.appendChild(tableRowNameInput);
-            tabletbody.appendChild(tableRow1);
-            tableRow1.appendChild(tableRowLower);
-            tableRow1.appendChild(tableRowLowerTd);
-            tableRowLowerTd.appendChild(tableRowLowerInput);
-            tabletbody.appendChild(tableRow2);
-            tableRow2.appendChild(tableRowUpper);
-            tableRow2.appendChild(tableRowUpperTd);
-            tableRowUpperTd.appendChild(tableRowUpperInput);
-            // button text
-            btn.innerText = "#" + (i + 1).toString() + " Sensor";
-            // fyld text til body
-            cardBody.appendChild(document.createElement("p")).innerText = "Navn: " + sensor.name;
-            cardBody.appendChild(document.createElement("p")).innerText = "Fugtighed: " + sensor.data.humidity;
-            cardBody.appendChild(document.createElement("p")).innerText = "Tidspunkt: " + sensor.data.date;
-            cardBody.appendChild(document.createElement("p")).innerText = "MAC-Address: " + sensor.macAddress;
-        }
-    };
-    return Statistics;
-}());
-
-
-
-/***/ }),
-
-/***/ "./src/js/tables.ts":
-/*!**************************!*\
-  !*** ./src/js/tables.ts ***!
-  \**************************/
-/*! exports provided: Tables */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Tables", function() { return Tables; });
-var Tables = /** @class */ (function () {
-    function Tables(rows, columns) {
-        this.columns = columns;
-        this.rows = rows;
-    }
-    Tables.prototype.makeTable = function () {
+        // case
+        var card = document.createElement("div");
+        card.setAttribute("class", "card");
+        var cardHeader = document.createElement("div");
+        cardHeader.setAttribute("class", "card-header");
+        cardHeader.setAttribute("id", "heading" + this.sensorID.toString());
+        var mb0 = document.createElement("h5");
+        mb0.setAttribute("class", "mb-0");
+        var btn = document.createElement("button");
+        btn.setAttribute("class", "btn btn-link");
+        btn.setAttribute("type", "button");
+        btn.setAttribute("data-toggle", "collapse");
+        btn.setAttribute("data-target", "#collapse" + this.sensorID.toString());
+        btn.setAttribute("aria-expanded", "true");
+        btn.setAttribute("aria-controls", "collapse" + this.sensorID.toString());
+        var collapse = document.createElement("div");
+        collapse.setAttribute("class", "collapse");
+        collapse.setAttribute("id", "collapse" + this.sensorID.toString());
+        collapse.setAttribute("aria-labelledby", "heading" + this.sensorID.toString());
+        collapse.setAttribute("data-parent", "#accordion");
+        var cardBody = document.createElement("div");
+        cardBody.setAttribute("class", "card-body");
+        //table
+        //table create
         var table = document.createElement("table");
         table.setAttribute("class", "table table-striped");
-        var thead = table.createTHead();
-        var tbody = table.createTBody();
-        var theadrow = thead.insertRow(0);
-        for (var r = 0; r < this.columns; r++) {
-            theadrow.insertCell(r).innerText = "#" + r.toString() + " Head";
+        //table collums
+        var tabaleThead = document.createElement("thead"); // thead requered for bootstrap
+        var tablecolumnRow = document.createElement("tr"); //row til columns
+        var tablecolumn0 = document.createElement("th"); // paragraph column
+        tablecolumn0.innerHTML = "Titler";
+        var tablecolumn1 = document.createElement("th"); // input column
+        tablecolumn1.innerHTML = "Input";
+        // table tbody (used by bootstrap)
+        var tabletbody = document.createElement("tbody");
+        // table row
+        var tableRow0 = document.createElement("tr");
+        tableRow0.setAttribute("id", "row0");
+        var tableRow1 = document.createElement("tr");
+        tableRow1.setAttribute("id", "row1");
+        var tableRow2 = document.createElement("tr");
+        tableRow2.setAttribute("id", "row2");
+        // table name
+        var tableRowName = document.createElement("td");
+        tableRowName.setAttribute("id", "rowName" + this.sensorID.toString());
+        tableRowName.innerHTML = "Sensor navn: ";
+        var tableRowNameTd = document.createElement("td");
+        // input name
+        var tableRowNameInput = document.createElement("input");
+        tableRowNameInput.setAttribute("id", "rowNameInput");
+        tableRowNameInput.setAttribute("class", "form-control");
+        tableRowNameInput.setAttribute("placeholder", "indtast navn her");
+        tableRowNameInput.value = sensor.name;
+        // table lower
+        var tableRowLower = document.createElement("td");
+        tableRowLower.setAttribute("id", "rowLower" + this.sensorID.toString());
+        tableRowLower.innerHTML = "laveste grænse: ";
+        var tableRowLowerTd = document.createElement("td");
+        // input lower
+        var tableRowLowerInput = document.createElement("input");
+        tableRowLowerInput.setAttribute("id", "rowLowerInput");
+        tableRowLowerInput.setAttribute("class", "form-control");
+        tableRowLowerInput.setAttribute("placeholder", "indtast laveste grænse her");
+        tableRowLowerInput.value = sensor.limitLow;
+        // table upper
+        var tableRowUpper = document.createElement("td");
+        tableRowUpper.setAttribute("id", "rowUpper" + this.sensorID.toString());
+        tableRowUpper.innerHTML = "normal grænse: ";
+        var tableRowUpperTd = document.createElement("td");
+        // input Upper
+        var tableRowUpperInput = document.createElement("input");
+        tableRowUpperInput.setAttribute("id", "rowUpperInput");
+        tableRowUpperInput.setAttribute("class", "form-control");
+        tableRowUpperInput.setAttribute("placeholder", "indtast øvre grænse her");
+        tableRowUpperInput.value = sensor.limitUp;
+        //appendChild
+        mainDiv.appendChild(accordion);
+        accordion.appendChild(card);
+        card.appendChild(cardHeader);
+        cardHeader.appendChild(mb0);
+        mb0.appendChild(btn);
+        accordion.appendChild(collapse);
+        collapse.appendChild(cardBody);
+        // fyld text til body
+        var pname = cardBody.appendChild(document.createElement("p"));
+        pname.innerText = "Navn: " + sensor.name;
+        cardBody.appendChild(document.createElement("p")).innerText = "MAC-Address: " + sensor.macAddress;
+        cardBody.appendChild(document.createElement("hr"));
+        if (sensor.data != null) {
+            var msec = Date.parse(sensor.data.date);
+            var d = new Date(msec);
+            var formatted = d.getDate() + "/" + d.getMonth() + "/" + d.getFullYear();
+            cardBody.appendChild(document.createElement("p")).innerText = "Fugtighed: " + sensor.data.humidity + "%";
+            cardBody.appendChild(document.createElement("p")).innerText = "Tidspunkt: " + formatted;
         }
-        for (var r = 0; r < this.rows; r++) {
-            var tbodyrow = tbody.insertRow(r);
-            for (var c = 0; c < this.columns; c++) {
-                tbodyrow.insertCell(c).innerText = "Row:" + r.toString() + ", Cell:" + c.toString();
-            }
+        else {
+            cardBody.appendChild(document.createElement("p")).innerText = "Fugtighed: ..";
+            cardBody.appendChild(document.createElement("p")).innerText = "Tidspunkt: ..";
         }
-        return table;
+        var plimitlow = cardBody.appendChild(document.createElement("p"));
+        plimitlow.innerText = "Nedre Grænse: " + sensor.limitLow.toString();
+        var plimitup = cardBody.appendChild(document.createElement("p"));
+        plimitup.innerText = "Øvre Grænse: " + sensor.limitUp.toString();
+        // table append
+        cardBody.appendChild(table);
+        table.appendChild(tabaleThead);
+        tabaleThead.appendChild(tablecolumnRow);
+        tablecolumnRow.appendChild(tablecolumn0);
+        tablecolumnRow.appendChild(tablecolumn1);
+        table.appendChild(tabletbody);
+        tabletbody.appendChild(tableRow0);
+        tableRow0.appendChild(tableRowName);
+        tableRow0.appendChild(tableRowNameTd);
+        tableRowNameTd.appendChild(tableRowNameInput);
+        tabletbody.appendChild(tableRow1);
+        tableRow1.appendChild(tableRowLower);
+        tableRow1.appendChild(tableRowLowerTd);
+        tableRowLowerTd.appendChild(tableRowLowerInput);
+        tabletbody.appendChild(tableRow2);
+        tableRow2.appendChild(tableRowUpper);
+        tableRow2.appendChild(tableRowUpperTd);
+        tableRowUpperTd.appendChild(tableRowUpperInput);
+        var updBtn = cardBody.appendChild(document.createElement("button"));
+        updBtn.setAttribute("value", this.sensorID.toString());
+        updBtn.setAttribute("class", "btn btn-primary");
+        updBtn.innerText = "Gem Data";
+        updBtn.onclick = function () {
+            axios__WEBPACK_IMPORTED_MODULE_0___default.a.put("https://watermasterapi.azurewebsites.net/api/sensor/", {
+                macAddress: sensor.macAddress,
+                name: tableRowNameInput.value,
+                limitUp: Number(tableRowUpperInput.value),
+                limitLow: Number(tableRowLowerInput.value),
+                fK_UserId: sensor.fK_UserId
+            })
+                .then(function (response) {
+                pname.innerText = "Navn: " + tableRowNameInput.value;
+                plimitup.innerText = "Øvre Grænse: " + tableRowUpperInput.value;
+                plimitlow.innerText = "Nedre Grænse: " + tableRowLowerInput.value;
+                //window.location.reload(); // !!
+            });
+        };
+        btn.innerText = "#" + this.sensorID.toString() + " Sensor";
     };
-    return Tables;
+    return Statistics;
 }());
 
 

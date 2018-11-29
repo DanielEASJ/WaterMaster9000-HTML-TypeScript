@@ -2,11 +2,13 @@ export class Tables
 {
     private columns: number;
     private rows: number;
+    private obj: any;
 
-    constructor(rows: number, columns: number)
+    constructor(rows: number, columns: number, obj: any)
     {
         this.columns = columns;
         this.rows = rows;
+        this.obj = obj;
     }
 
     makeTable(): any
