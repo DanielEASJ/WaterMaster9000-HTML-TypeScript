@@ -3,7 +3,7 @@ import { Statistics } from './statistics';
 
 let stats = new Statistics();
 
-let URI = "https://restcoinservice-mandatoryassignment02.azurewebsites.net/api/" //update
+let URI = "https://watermasterapi.azurewebsites.net/api/"
 let outputDiv : HTMLDivElement;
 
 outputDiv = <HTMLDivElement> document.getElementById("outputDiv");
@@ -15,15 +15,15 @@ function getData()
 {
     let temp : string = "";
 
-    axios.get(URI + "/bids") //update 
+    axios.get(URI + "sensor/") 
 
 .then(function (response)
 {
     // response.data.forEach(i => {
-    //     outputDiv.innerHTML = i.navn;
+    //     outputDiv.innerHTML = i.humidity;
     // });
-    // temp = response.data.navn; //ændret til navn, burde være noget ala moisture
-    // console.log(response.data.navn); //ændret til navn, burde være noget ala moisture
+    // temp = response.data.humidity;
+    // console.log(response.data.humidity);
     //outputDiv.innerHTML = temp
 
 })

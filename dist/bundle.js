@@ -2007,20 +2007,20 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var stats = new _statistics__WEBPACK_IMPORTED_MODULE_1__["Statistics"]();
-var URI = "https://restcoinservice-mandatoryassignment02.azurewebsites.net/api/"; //update
+var URI = "https://watermasterapi.azurewebsites.net/api/";
 var outputDiv;
 outputDiv = document.getElementById("outputDiv");
 // outputDiv.addEventListener("loadend", getData);
 getData();
 function getData() {
     var temp = "";
-    axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(URI + "/bids") //update 
+    axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(URI + "sensor/")
         .then(function (response) {
         // response.data.forEach(i => {
-        //     outputDiv.innerHTML = i.navn;
+        //     outputDiv.innerHTML = i.humidity;
         // });
-        // temp = response.data.navn; //ændret til navn, burde være noget ala moisture
-        // console.log(response.data.navn); //ændret til navn, burde være noget ala moisture
+        // temp = response.data.humidity;
+        // console.log(response.data.humidity);
         //outputDiv.innerHTML = temp
     })
         .catch(function (error) {
@@ -2052,6 +2052,7 @@ var Statistics = /** @class */ (function () {
         accordion.setAttribute("class", "accordion");
         accordion.setAttribute("id", "accordion");
         for (var i = 0; i < 5; i++) {
+            // case
             var card = document.createElement("div");
             card.setAttribute("class", "card");
             var cardHeader = document.createElement("div");
@@ -2073,6 +2074,45 @@ var Statistics = /** @class */ (function () {
             collapse.setAttribute("data-parent", "#accordion");
             var cardBody = document.createElement("div");
             cardBody.setAttribute("class", "card-body");
+            //table
+            //table create
+            var table = document.createElement("table");
+            table.setAttribute("id", "table" + i.toString()); // !!
+            //table collums
+            var tablecolumnRow = document.createElement("tr"); //row til columns
+            var tablecolumn0 = document.createElement("th"); // paragraph column
+            // tablecolumn0.innerHTML = "test"
+            var tablecolumn1 = document.createElement("th"); // input column
+            // tablecolumn1.innerHTML = "test 2"
+            // table row
+            var tableRow0 = document.createElement("tr");
+            tableRow0.setAttribute("id", "row0");
+            var tableRow1 = document.createElement("tr");
+            tableRow1.setAttribute("id", "row1");
+            var tableRow2 = document.createElement("tr");
+            tableRow2.setAttribute("id", "row2");
+            // table name
+            var tableRowName = document.createElement("td");
+            tableRowName.setAttribute("id", "rowName" + i.toString()); // !!
+            tableRowName.innerHTML = "Sensor navn: ";
+            var tableRowNameInput = document.createElement("input");
+            tableRowNameInput.setAttribute("id", "rowNameInput");
+            tableRowNameInput.setAttribute("placeholder", "indtast navn her");
+            // table lower
+            var tableRowLower = document.createElement("td");
+            tableRowLower.setAttribute("id", "rowLower" + i.toString()); // !!
+            tableRowLower.innerHTML = "laveste grænse: ";
+            var tableRowLowerInput = document.createElement("input");
+            tableRowLowerInput.setAttribute("id", "rowLowerInput");
+            tableRowLowerInput.setAttribute("placeholder", "indtast laveste grænse her");
+            // table upper
+            var tableRowUpper = document.createElement("td");
+            tableRowUpper.setAttribute("id", "rowUpper" + i.toString()); // !!
+            tableRowUpper.innerHTML = "normal grænse: ";
+            var tableRowUpperInput = document.createElement("input");
+            tableRowUpperInput.setAttribute("id", "rowUpperInput");
+            tableRowUpperInput.setAttribute("placeholder", "indtast normal grænse her");
+            //appendChild
             mainDiv.appendChild(accordion);
             accordion.appendChild(card);
             card.appendChild(cardHeader);
@@ -2080,6 +2120,20 @@ var Statistics = /** @class */ (function () {
             mb0.appendChild(btn);
             accordion.appendChild(collapse);
             collapse.appendChild(cardBody);
+            collapse.appendChild(table);
+            table.appendChild(tablecolumnRow);
+            tablecolumnRow.appendChild(tablecolumn0);
+            tablecolumnRow.appendChild(tablecolumn1);
+            table.appendChild(tableRow0);
+            tableRow0.appendChild(tableRowName);
+            tableRow0.appendChild(tableRowNameInput);
+            table.appendChild(tableRow1);
+            tableRow1.appendChild(tableRowLower);
+            tableRow1.appendChild(tableRowLowerInput);
+            table.appendChild(tableRow2);
+            tableRow2.appendChild(tableRowUpper);
+            tableRow2.appendChild(tableRowUpperInput);
+            //test text
             btn.innerText = "#" + i.toString() + " Sensor";
             cardBody.innerText = "Hello. This is Sensor #" + i.toString();
         }
