@@ -2002,9 +2002,59 @@ module.exports = __webpack_require__.p + "index.htm";
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _statistics__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./statistics */ "./src/js/statistics.ts");
+/* harmony import */ var _statistics_new_sensor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./statistics-new-sensor */ "./src/js/statistics-new-sensor.ts");
 
-var stats = new _statistics__WEBPACK_IMPORTED_MODULE_0__["Statistics"]();
-stats.GetByUser();
+
+var url = window.location.pathname;
+var filename = url.substring(url.lastIndexOf('/') + 1);
+if (filename == "statistics.htm") {
+    var stats = new _statistics__WEBPACK_IMPORTED_MODULE_0__["Statistics"]();
+    stats.GetByUser();
+}
+if (filename == "statistics-new-sensor.htm") {
+    var newSensor = new _statistics_new_sensor__WEBPACK_IMPORTED_MODULE_1__["NewSensor"]();
+}
+
+
+/***/ }),
+
+/***/ "./src/js/statistics-new-sensor.ts":
+/*!*****************************************!*\
+  !*** ./src/js/statistics-new-sensor.ts ***!
+  \*****************************************/
+/*! exports provided: NewSensor */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NewSensor", function() { return NewSensor; });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+
+var NewSensor = /** @class */ (function () {
+    function NewSensor() {
+        var btn = document.getElementById("newSensorBtn");
+        btn.addEventListener("click", this.PostNewSensor);
+    }
+    NewSensor.prototype.PostNewSensor = function () {
+        var inputMA = document.getElementById("newMacAddress");
+        var inputName = document.getElementById("newName");
+        var inputLL = document.getElementById("newLowerLimit");
+        var inputUL = document.getElementById("newUpperLimit");
+        var inputUID = document.getElementById("newUserId");
+        var BASEURI = "https://watermasterapi.azurewebsites.net/api/sensor/PostSensor/";
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(BASEURI, {
+            macAddress: inputMA.value,
+            name: inputName.value,
+            limitUp: inputUL.value,
+            limitLow: inputLL.value,
+            fK_UserId: inputUID.value,
+            data: null
+        });
+    };
+    return NewSensor;
+}());
+
 
 
 /***/ }),
@@ -2238,7 +2288,7 @@ var Statistics = /** @class */ (function () {
         tableRowUpperTd.appendChild(tableRowUpperInput);
         var updBtn = cardBody.appendChild(document.createElement("button"));
         updBtn.setAttribute("value", this.sensorID.toString());
-        updBtn.setAttribute("class", "btn btn-primary");
+        updBtn.setAttribute("class", "btn btn-lg btn-primary");
         updBtn.innerText = "Gem Data";
         updBtn.onclick = function () {
             axios__WEBPACK_IMPORTED_MODULE_0___default.a.put("https://watermasterapi.azurewebsites.net/api/sensor/", {

@@ -232,7 +232,7 @@ export class Statistics
 
         let updBtn = cardBody.appendChild(document.createElement("button"));
         updBtn.setAttribute("value", this.sensorID.toString());
-        updBtn.setAttribute("class", "btn btn-primary");
+        updBtn.setAttribute("class", "btn btn-lg btn-primary");
         updBtn.innerText = "Gem Data";
         updBtn.onclick = function() {
             
