@@ -30,7 +30,16 @@ h1 {
     margin-bottom: 30px;
 }
 
+hr {
+    border-bottom: 1px solid #bbb;
+}
+
 button {
+    font-weight: bold !important;
+    text-transform: uppercase;
+}
+
+a.btn {
     font-weight: bold !important;
     text-transform: uppercase;
 }

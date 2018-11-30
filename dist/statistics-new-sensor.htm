@@ -3,7 +3,7 @@
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <title>Statistik - WaterMaster9000</title>
+  <title>Tilføj Ny Sensor - WaterMaster9000</title>
   <link rel="stylesheet"
     href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
     integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
@@ -23,7 +23,7 @@
 
 <body>
   <div w3-include-html="includes/navigation.htm"></div>
-  <div id="statistics" class="container">
+  <div class="container">
 
   <!-- Content that differs -->
 
@@ -34,7 +34,41 @@
   </div>
   <div class="row">
     <div class="col">
-      <a class="btn btn-lg btn-success mb-4" href="statistics-new-sensor.htm">Tilføj Ny Sensor</a>
+        <table class="table table-striped table-bordered mb-4">
+            <thead>
+                <tr>
+                    <th>Titler</th>
+                    <th>Input</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>MAC-Adresse:</td>
+                    <td><input type="text" id="NewMacAddress" class="form-control"></td>
+                </tr>
+                <tr>
+                    <td>Navn:</td>
+                    <td><input type="text" id="NewName" class="form-control"></td>
+                </tr>
+                <tr>
+                    <td>Nedre grænse:</td>
+                    <td><input type="number" id="NewLowerLimit" class="form-control"></td>
+                </tr>
+                <tr>
+                    <td>Øvre grænse:</td>
+                    <td><input type="number" id="NewUpperLimit" class="form-control"></td>
+                </tr>
+                <tr>
+                    <td>Bruger:</td>
+                    <td><input type="number" id="NewUserId" class="form-control" value="1" disabled></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <a class="btn btn-lg btn-primary" href="statistics-new-sensor.htm">Gennemfør tilføjelse</a>
     </div>
   </div>
 
@@ -43,7 +77,6 @@
   </div>
   <div w3-include-html="includes/footer.htm"></div>
   <script src="bundle.js"></script>
-  <script>$('.collapse').collapse()</script>
   <script>w3IncludeHTML();</script>
 </body>
 

@@ -2160,7 +2160,7 @@ var Statistics = /** @class */ (function () {
         // table name
         var tableRowName = document.createElement("td");
         tableRowName.setAttribute("id", "rowName" + this.sensorID.toString());
-        tableRowName.innerHTML = "Sensor navn: ";
+        tableRowName.innerHTML = "Navn: ";
         var tableRowNameTd = document.createElement("td");
         // input name
         var tableRowNameInput = document.createElement("input");
@@ -2171,7 +2171,7 @@ var Statistics = /** @class */ (function () {
         // table lower
         var tableRowLower = document.createElement("td");
         tableRowLower.setAttribute("id", "rowLower" + this.sensorID.toString());
-        tableRowLower.innerHTML = "laveste grænse: ";
+        tableRowLower.innerHTML = "Nedre grænse: ";
         var tableRowLowerTd = document.createElement("td");
         // input lower
         var tableRowLowerInput = document.createElement("input");
@@ -2182,7 +2182,7 @@ var Statistics = /** @class */ (function () {
         // table upper
         var tableRowUpper = document.createElement("td");
         tableRowUpper.setAttribute("id", "rowUpper" + this.sensorID.toString());
-        tableRowUpper.innerHTML = "normal grænse: ";
+        tableRowUpper.innerHTML = "Øvre grænse: ";
         var tableRowUpperTd = document.createElement("td");
         // input Upper
         var tableRowUpperInput = document.createElement("input");
@@ -2214,9 +2214,9 @@ var Statistics = /** @class */ (function () {
             cardBody.appendChild(document.createElement("p")).innerText = "Tidspunkt: ..";
         }
         var plimitlow = cardBody.appendChild(document.createElement("p"));
-        plimitlow.innerText = "Nedre Grænse: " + sensor.limitLow.toString();
+        plimitlow.innerText = "Nedre grænse: " + sensor.limitLow.toString();
         var plimitup = cardBody.appendChild(document.createElement("p"));
-        plimitup.innerText = "Øvre Grænse: " + sensor.limitUp.toString();
+        plimitup.innerText = "Øvre grænse: " + sensor.limitUp.toString();
         // table append
         cardBody.appendChild(table);
         table.appendChild(tabaleThead);

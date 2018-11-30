@@ -130,7 +130,7 @@ export class Statistics
         // table name
         let tableRowName : HTMLTableDataCellElement = document.createElement("td")
         tableRowName.setAttribute("id", "rowName" + this.sensorID.toString());
-        tableRowName.innerHTML = "Sensor navn: "
+        tableRowName.innerHTML = "Navn: "
 
         let tableRowNameTd: HTMLTableDataCellElement = document.createElement("td");
 
@@ -144,7 +144,7 @@ export class Statistics
         // table lower
         let tableRowLower : HTMLTableDataCellElement = document.createElement("td");
         tableRowLower.setAttribute("id", "rowLower" + this.sensorID.toString());
-        tableRowLower.innerHTML = "laveste grænse: "
+        tableRowLower.innerHTML = "Nedre grænse: "
 
         let tableRowLowerTd: HTMLTableDataCellElement = document.createElement("td");
 
@@ -158,7 +158,7 @@ export class Statistics
         // table upper
         let tableRowUpper : HTMLTableDataCellElement = document.createElement("td");
         tableRowUpper.setAttribute("id", "rowUpper" + this.sensorID.toString());
-        tableRowUpper.innerHTML = "normal grænse: "
+        tableRowUpper.innerHTML = "Øvre grænse: "
 
         let tableRowUpperTd: HTMLTableDataCellElement = document.createElement("td");
 
@@ -198,9 +198,9 @@ export class Statistics
             cardBody.appendChild(document.createElement("p")).innerText = "Tidspunkt: ..";
         }
         let plimitlow = cardBody.appendChild(document.createElement("p")) as HTMLParagraphElement;
-        plimitlow.innerText = "Nedre Grænse: " + sensor.limitLow.toString();
+        plimitlow.innerText = "Nedre grænse: " + sensor.limitLow.toString();
         let plimitup = cardBody.appendChild(document.createElement("p")) as HTMLParagraphElement;
-        plimitup.innerText = "Øvre Grænse: " + sensor.limitUp.toString();
+        plimitup.innerText = "Øvre grænse: " + sensor.limitUp.toString();
 
         // table append
         cardBody.appendChild(table);
