@@ -43,6 +43,9 @@ nav.navbar {
 .card-header {
   border: 1px solid #999; }
 
+div.card-header > h5 > button.btn {
+  font-size: 1.4rem !important; }
+
 .card-body {
   border: 1px solid #999;
   border-top: 0 none; }

@@ -72,22 +72,23 @@ export class Statistics
         card.setAttribute("class", "card");
 
         let cardHeader: HTMLDivElement = document.createElement("div");
-        cardHeader.setAttribute("class", "card-header");
+        cardHeader.setAttribute("class", "card-header bg-primary");
         cardHeader.setAttribute("id", "heading" + this.sensorID.toString());
 
         let mb0: HTMLHeadingElement = document.createElement("h5");
         mb0.setAttribute("class", "mb-0");
 
         let btn: HTMLButtonElement = document.createElement("button");
-        btn.setAttribute("class", "btn btn-link");
+        btn.setAttribute("class", "btn btn-link text-white");
         btn.setAttribute("type", "button");
         btn.setAttribute("data-toggle", "collapse");
         btn.setAttribute("data-target", "#collapse" + this.sensorID.toString());
         btn.setAttribute("aria-expanded", "true");
         btn.setAttribute("aria-controls", "collapse" + this.sensorID.toString());
+        btn.innerText = "#" + this.sensorID + " " + sensor.name;
 
         let collapse: HTMLDivElement = document.createElement("div");
-        collapse.setAttribute("class", "collapse");
+        collapse.setAttribute("class", "collapse mb-1");
         collapse.setAttribute("id", "collapse" + this.sensorID.toString());
         collapse.setAttribute("aria-labelledby", "heading" + this.sensorID.toString());
         collapse.setAttribute("data-parent", "#accordion");
@@ -106,11 +107,11 @@ export class Statistics
 
         let tablecolumnRow: HTMLTableRowElement = document.createElement("tr"); //row til columns
 
-        let tablecolumn0: HTMLTableHeaderCellElement = document.createElement("th") // paragraph column
-        tablecolumn0.innerHTML = "Titler"
+        let tablecolumn0: HTMLTableHeaderCellElement = document.createElement("th"); // paragraph column
+        tablecolumn0.innerHTML = "Titler";
         
-        let tablecolumn1: HTMLTableHeaderCellElement = document.createElement("th") // input column
-        tablecolumn1.innerHTML = "Input"
+        let tablecolumn1: HTMLTableHeaderCellElement = document.createElement("th"); // input column
+        tablecolumn1.innerHTML = "Input";
 
 
         // table tbody (used by bootstrap)
@@ -130,7 +131,7 @@ export class Statistics
         // table name
         let tableRowName : HTMLTableDataCellElement = document.createElement("td")
         tableRowName.setAttribute("id", "rowName" + this.sensorID.toString());
-        tableRowName.innerHTML = "Navn: "
+        tableRowName.innerHTML = "Navn: ";
 
         let tableRowNameTd: HTMLTableDataCellElement = document.createElement("td");
 
@@ -144,7 +145,7 @@ export class Statistics
         // table lower
         let tableRowLower : HTMLTableDataCellElement = document.createElement("td");
         tableRowLower.setAttribute("id", "rowLower" + this.sensorID.toString());
-        tableRowLower.innerHTML = "Nedre grænse: "
+        tableRowLower.innerHTML = "Nedre grænse: ";
 
         let tableRowLowerTd: HTMLTableDataCellElement = document.createElement("td");
 
@@ -158,7 +159,7 @@ export class Statistics
         // table upper
         let tableRowUpper : HTMLTableDataCellElement = document.createElement("td");
         tableRowUpper.setAttribute("id", "rowUpper" + this.sensorID.toString());
-        tableRowUpper.innerHTML = "Øvre grænse: "
+        tableRowUpper.innerHTML = "Øvre grænse: ";
 
         let tableRowUpperTd: HTMLTableDataCellElement = document.createElement("td");
 
@@ -180,27 +181,46 @@ export class Statistics
 
         // fyld text til body
         let pname = cardBody.appendChild(document.createElement("p")) as HTMLParagraphElement;
-        pname.innerText = "Navn: " + sensor.name;
+        pname.innerText = "Navn: ";
+        let spanname = pname.appendChild(document.createElement("span"));
+        spanname.innerText = sensor.name;
+
         cardBody.appendChild(document.createElement("p")).innerText = "MAC-Address: " + sensor.macAddress;
-        cardBody.appendChild(document.createElement("hr"))
+        cardBody.appendChild(document.createElement("hr"));
+        
+        let phumidity = cardBody.appendChild(document.createElement("p"));
+        phumidity.innerText = "Fugtighed: ";
+        let spanhumidity = phumidity.appendChild(document.createElement("span"));
+
+        let pdate = cardBody.appendChild(document.createElement("p"));
+        pdate.innerText = "Tidspunkt: ";
+        let spandate = pdate.appendChild(document.createElement("span"));
+
         if (sensor.data != null)
         {
             var msec = Date.parse(sensor.data.date);
             var d = new Date(msec);
-            var formatted = d.getDate() + "/" + d.getMonth() + "/" + d.getFullYear();
+            var formatted = d.getDate() + "/" + (d.getMonth() +1) + "/" + d.getFullYear() + " " +
+                            d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
             
-            cardBody.appendChild(document.createElement("p")).innerText = "Fugtighed: " + sensor.data.humidity + "%";
-            cardBody.appendChild(document.createElement("p")).innerText = "Tidspunkt: " + formatted;
+            spanhumidity.innerText = sensor.data.humidity + "%";
+            spandate.innerText = formatted;
         }
         else
         {
-            cardBody.appendChild(document.createElement("p")).innerText = "Fugtighed: ..";
-            cardBody.appendChild(document.createElement("p")).innerText = "Tidspunkt: ..";
+            spanhumidity.innerText = "..";
+            spandate.innerText = "..";
         }
+
         let plimitlow = cardBody.appendChild(document.createElement("p")) as HTMLParagraphElement;
-        plimitlow.innerText = "Nedre grænse: " + sensor.limitLow.toString();
+        plimitlow.innerText = "Nedre fugtigheds-grænse: ";
+        let spanlimitlow = plimitlow.appendChild(document.createElement("span"));
+        spanlimitlow.innerText = sensor.limitLow.toString() + "%";
+
         let plimitup = cardBody.appendChild(document.createElement("p")) as HTMLParagraphElement;
-        plimitup.innerText = "Øvre grænse: " + sensor.limitUp.toString();
+        plimitup.innerText = "Øvre fugtigheds-grænse: ";
+        let spanlimitup = plimitup.appendChild(document.createElement("span"));
+        spanlimitup.innerText = sensor.limitUp.toString() + "%";
 
         // table append
         cardBody.appendChild(table);
@@ -228,7 +248,7 @@ export class Statistics
 
         tableRow2.appendChild(tableRowUpper);
         tableRow2.appendChild(tableRowUpperTd);
-        tableRowUpperTd.appendChild(tableRowUpperInput)
+        tableRowUpperTd.appendChild(tableRowUpperInput);
 
         let updBtn = cardBody.appendChild(document.createElement("button"));
         updBtn.setAttribute("value", this.sensorID.toString());
@@ -244,13 +264,11 @@ export class Statistics
                 fK_UserId: sensor.fK_UserId
             })
             .then(function(response) {
-                pname.innerText = "Navn: " + tableRowNameInput.value;
-                plimitup.innerText = "Øvre Grænse: " + tableRowUpperInput.value;
-                plimitlow.innerText = "Nedre Grænse: " + tableRowLowerInput.value;
+                spanname.innerText = tableRowNameInput.value;
+                spanlimitup.innerText = tableRowUpperInput.value + "%";
+                spanlimitlow.innerText = tableRowLowerInput.value + "%";
                 //window.location.reload(); // !!
             });
         };
-
-        btn.innerText = "#" + this.sensorID.toString() + " Sensor";
     }
 }

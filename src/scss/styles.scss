@@ -63,6 +63,10 @@ $defaultBorderColor: #999;
     border: 1px solid $defaultBorderColor;
 }
 
+div.card-header > h5 > button.btn {
+    font-size: 1.4rem !important;
+}
+
 .card-body {
     border: 1px solid $defaultBorderColor;
     border-top: 0 none;
