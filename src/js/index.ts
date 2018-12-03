@@ -5,13 +5,14 @@ import { NewSensor } from './statistics-new-sensor';
 let url = window.location.pathname;
 let filename = url.substring(url.lastIndexOf('/') + 1);
 
-if (filename == "statistics.htm")
-{
-    let stats = new Statistics();
-    stats.GetByUser();
-}
+//let newS:NewSensor = new NewSensor();
+// if (filename == "statistics.htm")
+// {
+//     let stats = new Statistics();
+//     let mm = stats.GetByUser();
+// }
 
 if (filename == "statistics-new-sensor.htm")
 {
-    let newSensor = new NewSensor();
+    new NewSensor();
 }

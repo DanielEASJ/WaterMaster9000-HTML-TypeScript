@@ -2001,18 +2001,18 @@ module.exports = __webpack_require__.p + "index.htm";
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _statistics__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./statistics */ "./src/js/statistics.ts");
-/* harmony import */ var _statistics_new_sensor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./statistics-new-sensor */ "./src/js/statistics-new-sensor.ts");
-
+/* harmony import */ var _statistics_new_sensor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./statistics-new-sensor */ "./src/js/statistics-new-sensor.ts");
 
 var url = window.location.pathname;
 var filename = url.substring(url.lastIndexOf('/') + 1);
-if (filename == "statistics.htm") {
-    var stats = new _statistics__WEBPACK_IMPORTED_MODULE_0__["Statistics"]();
-    stats.GetByUser();
-}
+//let newS:NewSensor = new NewSensor();
+// if (filename == "statistics.htm")
+// {
+//     let stats = new Statistics();
+//     let mm = stats.GetByUser();
+// }
 if (filename == "statistics-new-sensor.htm") {
-    var newSensor = new _statistics_new_sensor__WEBPACK_IMPORTED_MODULE_1__["NewSensor"]();
+    new _statistics_new_sensor__WEBPACK_IMPORTED_MODULE_0__["NewSensor"]();
 }
 
 
@@ -2033,281 +2033,63 @@ __webpack_require__.r(__webpack_exports__);
 
 var NewSensor = /** @class */ (function () {
     function NewSensor() {
+        this.BASEURI = "https://watermasterapi.azurewebsites.net/api/sensor/";
         var btn = document.getElementById("newSensorBtn");
         btn.addEventListener("click", this.PostNewSensor);
+        this.inputMA = document.getElementById("newMacAddress");
+        this.inputName = document.getElementById("newName");
+        this.inputLL = document.getElementById("newLowerLimit");
+        this.inputUL = document.getElementById("newUpperLimit");
+        this.inputUID = document.getElementById("newUserId");
     }
     NewSensor.prototype.PostNewSensor = function () {
-        var inputMA = document.getElementById("newMacAddress");
-        var inputName = document.getElementById("newName");
-        var inputLL = document.getElementById("newLowerLimit");
-        var inputUL = document.getElementById("newUpperLimit");
-        var inputUID = document.getElementById("newUserId");
-        var BASEURI = "https://watermasterapi.azurewebsites.net/api/sensor/PostSensor/";
-        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(BASEURI, {
-            macAddress: inputMA.value,
-            name: inputName.value,
-            limitUp: inputUL.value,
-            limitLow: inputLL.value,
-            fK_UserId: inputUID.value,
+        if (this.ValidateFields) {
+            console.log("ss");
+        }
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(this.BASEURI, {
+            macAddress: this.inputMA.value,
+            name: this.inputName.value,
+            limitUp: this.inputUL.value,
+            limitLow: this.inputLL.value,
+            fK_UserId: this.inputUID.value,
             data: null
+        })
+            .then(function (response) {
+            if (response.status == 200) {
+                window.location.href = "statistics.htm";
+            }
         });
+    };
+    NewSensor.prototype.ValidateFields = function () {
+        var validation = true;
+        // let content = document.getElementById("content") as HTMLDivElement;
+        // if (this.inputMA.value.length != 17)
+        // {
+        //     validation = false;
+        //     content.appendChild(new Alert("Feltet \"MAC-Adresse\" indeholder et ugyldigt format!").MakeAlert());
+        // }
+        // if (this.inputName.value == "")
+        // {
+        //     validation = false;
+        //     content.appendChild(new Alert("Feltet \"Navn\" må IKKE være tomt!").MakeAlert());
+        // }
+        // if (this.inputLL.value != "" && this.inputLL.value.match("^[0-9]*$"))
+        // {
+        //     if (Number(this.inputLL.value) < 0
+        //     && Number(this.inputLL.value) > 100)
+        //     {
+        //         validation = false;
+        //         content.appendChild(new Alert("Feltet \"Nedre grænse\" SKAL være mellem 0-100!").MakeAlert());
+        //     }
+        // }
+        // else
+        // {
+        //     validation = false;
+        //     content.appendChild(new Alert("Feltet \"Nedre grænse\" må IKKE være tomt, og må KUN indeholde tal!").MakeAlert());
+        // }
+        return validation;
     };
     return NewSensor;
-}());
-
-
-
-/***/ }),
-
-/***/ "./src/js/statistics.ts":
-/*!******************************!*\
-  !*** ./src/js/statistics.ts ***!
-  \******************************/
-/*! exports provided: Statistics */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Statistics", function() { return Statistics; });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (undefined && undefined.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
-
-var Statistics = /** @class */ (function () {
-    function Statistics() {
-        this.userid = 1;
-        this.BASEURI = "https://watermasterapi.azurewebsites.net/api/sensor/";
-        this.sensorID = 1;
-        this.mainDiv = document.getElementById("statistics");
-        this.accordion = document.createElement("div");
-    }
-    Statistics.prototype.GetByUser = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var userSensors, _loop_1, this_1, index;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        this.accordion.setAttribute("class", "accordion");
-                        this.accordion.setAttribute("id", "accordion");
-                        this.mainDiv.appendChild(this.accordion);
-                        return [4 /*yield*/, axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(this.BASEURI + "userid/" + this.userid)
-                                .then(function (response) {
-                                userSensors = response.data;
-                            })];
-                    case 1:
-                        _a.sent();
-                        _loop_1 = function (index) {
-                            var temp;
-                            return __generator(this, function (_a) {
-                                switch (_a.label) {
-                                    case 0: return [4 /*yield*/, axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(this_1.BASEURI + "mac/" + userSensors[index])
-                                            .then(function (response) {
-                                            temp = response.data;
-                                            //this.sensorList.push(temp);
-                                        })];
-                                    case 1:
-                                        _a.sent();
-                                        this_1.SetUpHTML(temp);
-                                        this_1.sensorID++;
-                                        return [2 /*return*/];
-                                }
-                            });
-                        };
-                        this_1 = this;
-                        index = 0;
-                        _a.label = 2;
-                    case 2:
-                        if (!(index < userSensors.length)) return [3 /*break*/, 5];
-                        return [5 /*yield**/, _loop_1(index)];
-                    case 3:
-                        _a.sent();
-                        _a.label = 4;
-                    case 4:
-                        index++;
-                        return [3 /*break*/, 2];
-                    case 5: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    Statistics.prototype.SetUpHTML = function (sensor) {
-        // case
-        var card = document.createElement("div");
-        card.setAttribute("class", "card");
-        var cardHeader = document.createElement("div");
-        cardHeader.setAttribute("class", "card-header");
-        cardHeader.setAttribute("id", "heading" + this.sensorID.toString());
-        var mb0 = document.createElement("h5");
-        mb0.setAttribute("class", "mb-0");
-        var btn = document.createElement("button");
-        btn.setAttribute("class", "btn btn-link");
-        btn.setAttribute("type", "button");
-        btn.setAttribute("data-toggle", "collapse");
-        btn.setAttribute("data-target", "#collapse" + this.sensorID.toString());
-        btn.setAttribute("aria-expanded", "true");
-        btn.setAttribute("aria-controls", "collapse" + this.sensorID.toString());
-        var collapse = document.createElement("div");
-        collapse.setAttribute("class", "collapse");
-        collapse.setAttribute("id", "collapse" + this.sensorID.toString());
-        collapse.setAttribute("aria-labelledby", "heading" + this.sensorID.toString());
-        collapse.setAttribute("data-parent", "#accordion");
-        var cardBody = document.createElement("div");
-        cardBody.setAttribute("class", "card-body");
-        //table
-        //table create
-        var table = document.createElement("table");
-        table.setAttribute("class", "table table-striped");
-        //table collums
-        var tabaleThead = document.createElement("thead"); // thead requered for bootstrap
-        var tablecolumnRow = document.createElement("tr"); //row til columns
-        var tablecolumn0 = document.createElement("th"); // paragraph column
-        tablecolumn0.innerHTML = "Titler";
-        var tablecolumn1 = document.createElement("th"); // input column
-        tablecolumn1.innerHTML = "Input";
-        // table tbody (used by bootstrap)
-        var tabletbody = document.createElement("tbody");
-        // table row
-        var tableRow0 = document.createElement("tr");
-        tableRow0.setAttribute("id", "row0");
-        var tableRow1 = document.createElement("tr");
-        tableRow1.setAttribute("id", "row1");
-        var tableRow2 = document.createElement("tr");
-        tableRow2.setAttribute("id", "row2");
-        // table name
-        var tableRowName = document.createElement("td");
-        tableRowName.setAttribute("id", "rowName" + this.sensorID.toString());
-        tableRowName.innerHTML = "Navn: ";
-        var tableRowNameTd = document.createElement("td");
-        // input name
-        var tableRowNameInput = document.createElement("input");
-        tableRowNameInput.setAttribute("id", "rowNameInput");
-        tableRowNameInput.setAttribute("class", "form-control");
-        tableRowNameInput.setAttribute("placeholder", "indtast navn her");
-        tableRowNameInput.value = sensor.name;
-        // table lower
-        var tableRowLower = document.createElement("td");
-        tableRowLower.setAttribute("id", "rowLower" + this.sensorID.toString());
-        tableRowLower.innerHTML = "Nedre grænse: ";
-        var tableRowLowerTd = document.createElement("td");
-        // input lower
-        var tableRowLowerInput = document.createElement("input");
-        tableRowLowerInput.setAttribute("id", "rowLowerInput");
-        tableRowLowerInput.setAttribute("class", "form-control");
-        tableRowLowerInput.setAttribute("placeholder", "indtast laveste grænse her");
-        tableRowLowerInput.value = sensor.limitLow;
-        // table upper
-        var tableRowUpper = document.createElement("td");
-        tableRowUpper.setAttribute("id", "rowUpper" + this.sensorID.toString());
-        tableRowUpper.innerHTML = "Øvre grænse: ";
-        var tableRowUpperTd = document.createElement("td");
-        // input Upper
-        var tableRowUpperInput = document.createElement("input");
-        tableRowUpperInput.setAttribute("id", "rowUpperInput");
-        tableRowUpperInput.setAttribute("class", "form-control");
-        tableRowUpperInput.setAttribute("placeholder", "indtast øvre grænse her");
-        tableRowUpperInput.value = sensor.limitUp;
-        //appendChild
-        this.accordion.appendChild(card);
-        card.appendChild(cardHeader);
-        cardHeader.appendChild(mb0);
-        mb0.appendChild(btn);
-        this.accordion.appendChild(collapse);
-        collapse.appendChild(cardBody);
-        // fyld text til body
-        var pname = cardBody.appendChild(document.createElement("p"));
-        pname.innerText = "Navn: " + sensor.name;
-        cardBody.appendChild(document.createElement("p")).innerText = "MAC-Address: " + sensor.macAddress;
-        cardBody.appendChild(document.createElement("hr"));
-        if (sensor.data != null) {
-            var msec = Date.parse(sensor.data.date);
-            var d = new Date(msec);
-            var formatted = d.getDate() + "/" + d.getMonth() + "/" + d.getFullYear();
-            cardBody.appendChild(document.createElement("p")).innerText = "Fugtighed: " + sensor.data.humidity + "%";
-            cardBody.appendChild(document.createElement("p")).innerText = "Tidspunkt: " + formatted;
-        }
-        else {
-            cardBody.appendChild(document.createElement("p")).innerText = "Fugtighed: ..";
-            cardBody.appendChild(document.createElement("p")).innerText = "Tidspunkt: ..";
-        }
-        var plimitlow = cardBody.appendChild(document.createElement("p"));
-        plimitlow.innerText = "Nedre grænse: " + sensor.limitLow.toString();
-        var plimitup = cardBody.appendChild(document.createElement("p"));
-        plimitup.innerText = "Øvre grænse: " + sensor.limitUp.toString();
-        // table append
-        cardBody.appendChild(table);
-        table.appendChild(tabaleThead);
-        tabaleThead.appendChild(tablecolumnRow);
-        tablecolumnRow.appendChild(tablecolumn0);
-        tablecolumnRow.appendChild(tablecolumn1);
-        table.appendChild(tabletbody);
-        tabletbody.appendChild(tableRow0);
-        tableRow0.appendChild(tableRowName);
-        tableRow0.appendChild(tableRowNameTd);
-        tableRowNameTd.appendChild(tableRowNameInput);
-        tabletbody.appendChild(tableRow1);
-        tableRow1.appendChild(tableRowLower);
-        tableRow1.appendChild(tableRowLowerTd);
-        tableRowLowerTd.appendChild(tableRowLowerInput);
-        tabletbody.appendChild(tableRow2);
-        tableRow2.appendChild(tableRowUpper);
-        tableRow2.appendChild(tableRowUpperTd);
-        tableRowUpperTd.appendChild(tableRowUpperInput);
-        var updBtn = cardBody.appendChild(document.createElement("button"));
-        updBtn.setAttribute("value", this.sensorID.toString());
-        updBtn.setAttribute("class", "btn btn-lg btn-primary");
-        updBtn.innerText = "Gem Data";
-        updBtn.onclick = function () {
-            axios__WEBPACK_IMPORTED_MODULE_0___default.a.put("https://watermasterapi.azurewebsites.net/api/sensor/", {
-                macAddress: sensor.macAddress,
-                name: tableRowNameInput.value,
-                limitUp: Number(tableRowUpperInput.value),
-                limitLow: Number(tableRowLowerInput.value),
-                fK_UserId: sensor.fK_UserId
-            })
-                .then(function (response) {
-                pname.innerText = "Navn: " + tableRowNameInput.value;
-                plimitup.innerText = "Øvre Grænse: " + tableRowUpperInput.value;
-                plimitlow.innerText = "Nedre Grænse: " + tableRowLowerInput.value;
-                //window.location.reload(); // !!
-            });
-        };
-        btn.innerText = "#" + this.sensorID.toString() + " Sensor";
-    };
-    return Statistics;
 }());
 
 

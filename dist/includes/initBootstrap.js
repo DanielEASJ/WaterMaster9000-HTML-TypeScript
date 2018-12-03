@@ -1,0 +1,2 @@
+$('.alert').alert();
+$('.collapse').collapse();

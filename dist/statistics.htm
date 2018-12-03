@@ -9,7 +9,7 @@
     integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
     crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="bundle.css">
-  <script src="http://www.w3schools.com/lib/w3data.js"></script>
+  <script src="includes/w3data.js"></script>
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
     crossorigin="anonymous"></script>
@@ -37,13 +37,15 @@
       <a class="btn btn-lg btn-success mb-4" href="statistics-new-sensor.htm">Tilføj Ny Sensor</a>
     </div>
   </div>
+  <div class="row">
+    <div class="col" id="content"></div>
+  </div>
 
   <!-- End -->
 
   </div>
-  <div w3-include-html="includes/footer.htm"></div>
+  <script src="includes/initBootstrap.js"></script>
   <script src="bundle.js"></script>
-  <script>$('.collapse').collapse()</script>
   <script>w3IncludeHTML();</script>
 </body>
 
