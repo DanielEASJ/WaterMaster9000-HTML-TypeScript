@@ -2004,18 +2004,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Alert", function() { return Alert; });
 var Alert = /** @class */ (function () {
     function Alert(message) {
+        // The constructor takes one paramater, which becomes the actual message shown in the alert box.
         this.message = message;
     }
     Alert.prototype.MakeAlert = function () {
+        // Create the division element that will become the actual alert box.
         var alert = document.createElement("div");
         alert.setAttribute("class", "alert alert-danger");
         alert.setAttribute("role", "alert");
         alert.innerText = this.message;
+        // Create the button element that will become the 'Close'-button.
         var closeAlert = document.createElement("button");
         closeAlert.setAttribute("type", "button");
         closeAlert.setAttribute("class", "close");
         closeAlert.setAttribute("data-dismiss", "alert");
         closeAlert.setAttribute("aria-label", "Close");
+        // Create the span element that will hold the 'X'-icon for the 'Close'-button.
         var closeSpan = document.createElement("span");
         closeSpan.setAttribute("aria-hidden", "true");
         closeSpan.innerText = "×";
@@ -2084,7 +2088,11 @@ var NewSensor = /** @class */ (function () {
         var inputUL = document.getElementById("newUpperLimit");
         var inputUID = document.getElementById("newUserId");
         var validation = true;
-        var content = document.getElementById("content");
+        var content = document.getElementById("alerts");
+        // Clear the alerts division, before appending new alerts, to avoid endless duplicates.
+        while (content.firstChild) {
+            content.removeChild(content.firstChild);
+        }
         if (inputMA.value.length != 17) {
             validation = false;
             content.appendChild(new _alert__WEBPACK_IMPORTED_MODULE_1__["Alert"]("Feltet \"MAC-Adresse\" indeholder et ugyldigt format!").MakeAlert());
@@ -2158,6 +2166,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Statistics", function() { return Statistics; });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _tables__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tables */ "./src/js/tables.ts");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -2194,23 +2203,28 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
     }
 };
 
+
 var Statistics = /** @class */ (function () {
     function Statistics() {
         this.userid = 1;
         this.BASEURI = "https://watermasterapi.azurewebsites.net/api/sensor/";
         this.sensorID = 1;
-        this.mainDiv = document.getElementById("statistics");
+        this.mainDiv = document.getElementById("content");
         this.accordion = document.createElement("div");
     }
     Statistics.prototype.GetByUser = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var userSensors, _loop_1, this_1, index;
+            var loadingBar, percentage, tempSensorList, userSensors, _loop_1, this_1, index;
+            var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         this.accordion.setAttribute("class", "accordion");
                         this.accordion.setAttribute("id", "accordion");
                         this.mainDiv.appendChild(this.accordion);
+                        loadingBar = document.getElementById("loadingBar");
+                        percentage = 0;
+                        tempSensorList = new Array();
                         return [4 /*yield*/, axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(this.BASEURI + "userid/" + this.userid)
                                 .then(function (response) {
                                 userSensors = response.data;
@@ -2218,18 +2232,19 @@ var Statistics = /** @class */ (function () {
                     case 1:
                         _a.sent();
                         _loop_1 = function (index) {
-                            var temp;
+                            var sensor;
                             return __generator(this, function (_a) {
                                 switch (_a.label) {
                                     case 0: return [4 /*yield*/, axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(this_1.BASEURI + "mac/" + userSensors[index])
                                             .then(function (response) {
-                                            temp = response.data;
-                                            //this.sensorList.push(temp);
+                                            percentage = ((index + 2) / userSensors.length) * 100;
+                                            sensor = response.data;
+                                            tempSensorList.push(sensor);
+                                            loadingBar.setAttribute("aria-valuenow", percentage.toString());
+                                            loadingBar.setAttribute("style", "width: " + percentage.toString() + "%");
                                         })];
                                     case 1:
                                         _a.sent();
-                                        this_1.SetUpHTML(temp);
-                                        this_1.sensorID++;
                                         return [2 /*return*/];
                                 }
                             });
@@ -2246,12 +2261,19 @@ var Statistics = /** @class */ (function () {
                     case 4:
                         index++;
                         return [3 /*break*/, 2];
-                    case 5: return [2 /*return*/];
+                    case 5:
+                        this.mainDiv.removeChild(document.getElementById("loadingBarWrapper"));
+                        tempSensorList.forEach(function (element) {
+                            _this.SetUpHTML(element);
+                            _this.sensorID++;
+                        });
+                        return [2 /*return*/];
                 }
             });
         });
     };
     Statistics.prototype.SetUpHTML = function (sensor) {
+        var id = this.sensorID;
         // case
         var card = document.createElement("div");
         card.setAttribute("class", "card");
@@ -2275,67 +2297,14 @@ var Statistics = /** @class */ (function () {
         collapse.setAttribute("data-parent", "#accordion");
         var cardBody = document.createElement("div");
         cardBody.setAttribute("class", "card-body");
-        //table
-        //table create
-        var table = document.createElement("table");
-        table.setAttribute("class", "table table-striped");
-        //table collums
-        var tabaleThead = document.createElement("thead"); // thead requered for bootstrap
-        var tablecolumnRow = document.createElement("tr"); //row til columns
-        var tablecolumn0 = document.createElement("th"); // paragraph column
-        tablecolumn0.innerHTML = "Titler";
-        var tablecolumn1 = document.createElement("th"); // input column
-        tablecolumn1.innerHTML = "Input";
-        // table tbody (used by bootstrap)
-        var tabletbody = document.createElement("tbody");
-        // table row
-        var tableRow0 = document.createElement("tr");
-        tableRow0.setAttribute("id", "row0");
-        var tableRow1 = document.createElement("tr");
-        tableRow1.setAttribute("id", "row1");
-        var tableRow2 = document.createElement("tr");
-        tableRow2.setAttribute("id", "row2");
-        // table name
-        var tableRowName = document.createElement("td");
-        tableRowName.setAttribute("id", "rowName" + this.sensorID.toString());
-        tableRowName.innerHTML = "Navn: ";
-        var tableRowNameTd = document.createElement("td");
-        // input name
-        var tableRowNameInput = document.createElement("input");
-        tableRowNameInput.setAttribute("id", "rowNameInput");
-        tableRowNameInput.setAttribute("class", "form-control");
-        tableRowNameInput.setAttribute("placeholder", "indtast navn her");
-        tableRowNameInput.value = sensor.name;
-        // table lower
-        var tableRowLower = document.createElement("td");
-        tableRowLower.setAttribute("id", "rowLower" + this.sensorID.toString());
-        tableRowLower.innerHTML = "Nedre grænse: ";
-        var tableRowLowerTd = document.createElement("td");
-        // input lower
-        var tableRowLowerInput = document.createElement("input");
-        tableRowLowerInput.setAttribute("id", "rowLowerInput");
-        tableRowLowerInput.setAttribute("class", "form-control");
-        tableRowLowerInput.setAttribute("placeholder", "indtast laveste grænse her");
-        tableRowLowerInput.value = sensor.limitLow;
-        // table upper
-        var tableRowUpper = document.createElement("td");
-        tableRowUpper.setAttribute("id", "rowUpper" + this.sensorID.toString());
-        tableRowUpper.innerHTML = "Øvre grænse: ";
-        var tableRowUpperTd = document.createElement("td");
-        // input Upper
-        var tableRowUpperInput = document.createElement("input");
-        tableRowUpperInput.setAttribute("id", "rowUpperInput");
-        tableRowUpperInput.setAttribute("class", "form-control");
-        tableRowUpperInput.setAttribute("placeholder", "indtast øvre grænse her");
-        tableRowUpperInput.value = sensor.limitUp;
-        //appendChild
+        // Append all created elements into the accordion division.
         this.accordion.appendChild(card);
         card.appendChild(cardHeader);
         cardHeader.appendChild(mb0);
         mb0.appendChild(btn);
         this.accordion.appendChild(collapse);
         collapse.appendChild(cardBody);
-        // fyld text til body
+        // Create and append paragraph/span elements to show/hold the API data.
         var pname = cardBody.appendChild(document.createElement("p"));
         pname.innerText = "Navn: ";
         var spanname = pname.appendChild(document.createElement("span"));
@@ -2368,46 +2337,121 @@ var Statistics = /** @class */ (function () {
         plimitup.innerText = "Øvre fugtigheds-grænse: ";
         var spanlimitup = plimitup.appendChild(document.createElement("span"));
         spanlimitup.innerText = sensor.limitUp.toString() + "%";
-        // table append
-        cardBody.appendChild(table);
-        table.appendChild(tabaleThead);
-        tabaleThead.appendChild(tablecolumnRow);
-        tablecolumnRow.appendChild(tablecolumn0);
-        tablecolumnRow.appendChild(tablecolumn1);
-        table.appendChild(tabletbody);
-        tabletbody.appendChild(tableRow0);
-        tableRow0.appendChild(tableRowName);
-        tableRow0.appendChild(tableRowNameTd);
-        tableRowNameTd.appendChild(tableRowNameInput);
-        tabletbody.appendChild(tableRow1);
-        tableRow1.appendChild(tableRowLower);
-        tableRow1.appendChild(tableRowLowerTd);
-        tableRowLowerTd.appendChild(tableRowLowerInput);
-        tabletbody.appendChild(tableRow2);
-        tableRow2.appendChild(tableRowUpper);
-        tableRow2.appendChild(tableRowUpperTd);
-        tableRowUpperTd.appendChild(tableRowUpperInput);
+        cardBody.appendChild(new _tables__WEBPACK_IMPORTED_MODULE_1__["Tables"](2, 3).makeTable(sensor, this.sensorID));
         var updBtn = cardBody.appendChild(document.createElement("button"));
         updBtn.setAttribute("value", this.sensorID.toString());
-        updBtn.setAttribute("class", "btn btn-lg btn-primary");
+        updBtn.setAttribute("class", "btn btn-lg btn-primary col-2");
         updBtn.innerText = "Gem Data";
         updBtn.onclick = function () {
+            var nameInput = document.getElementById("rowNameInput" + id.toString());
+            var lowerLimitInput = document.getElementById("rowLowerInput" + id.toString());
+            var upperLimitInput = document.getElementById("rowUpperInput" + id.toString());
             axios__WEBPACK_IMPORTED_MODULE_0___default.a.put("https://watermasterapi.azurewebsites.net/api/sensor/", {
                 macAddress: sensor.macAddress,
-                name: tableRowNameInput.value,
-                limitUp: Number(tableRowUpperInput.value),
-                limitLow: Number(tableRowLowerInput.value),
+                name: nameInput.value,
+                limitUp: Number(upperLimitInput.value),
+                limitLow: Number(lowerLimitInput.value),
                 fK_UserId: sensor.fK_UserId
             })
                 .then(function (response) {
-                spanname.innerText = tableRowNameInput.value;
-                spanlimitup.innerText = tableRowUpperInput.value + "%";
-                spanlimitlow.innerText = tableRowLowerInput.value + "%";
-                //window.location.reload(); // !!
+                if (response.status == 200) {
+                    btn.innerText = "#" + id.toString() + " " + nameInput.value;
+                    spanname.innerText = nameInput.value;
+                    spanlimitup.innerText = upperLimitInput.value + "%";
+                    spanlimitlow.innerText = lowerLimitInput.value + "%";
+                }
             });
         };
     };
     return Statistics;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/js/tables.ts":
+/*!**************************!*\
+  !*** ./src/js/tables.ts ***!
+  \**************************/
+/*! exports provided: Tables */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Tables", function() { return Tables; });
+var Tables = /** @class */ (function () {
+    function Tables(columns, rows) {
+        this.columns = columns;
+        this.rows = rows;
+    }
+    Tables.prototype.makeTable = function (sensorObj, id) {
+        var table = document.createElement("table");
+        table.setAttribute("class", "table table-striped table-bordered");
+        var thead = table.createTHead();
+        var tbody = table.createTBody();
+        var theadRow = thead.insertRow(0); // declare thead row to only one sinse column only needs one
+        for (var r = 0; r < this.columns; r++) {
+            switch (r) {
+                case 0:
+                    theadRow.appendChild(document.createElement("th")).innerText = "Titler"; // Appending in both cases, cause 'InsertCell' doesn't support the 'TH' element :(
+                    break;
+                case 1:
+                    theadRow.appendChild(document.createElement("th")).innerText = "Input";
+                    break;
+            }
+        }
+        for (var r = 0; r < this.rows; r++) {
+            var tbodyRow = tbody.insertRow(r); // generates rows according parameter
+            for (var c = 0; c < 1; c++) {
+                // hardcoded row definition (if row gets bigger then 3 needs more cases for the new number)
+                // also need to increase switch cases in method: generateInput, to fit this switch case 
+                switch (r) {
+                    case 0: // generate info section
+                        tbodyRow.insertCell(c).innerText = "Navn:";
+                        this.generateInput(tbodyRow, r, sensorObj, id);
+                        break;
+                    case 1: // generate info section
+                        tbodyRow.insertCell(c).innerText = "Nedre fugtigheds-grænse: (%)";
+                        this.generateInput(tbodyRow, r, sensorObj, id);
+                        break;
+                    case 2: // generate info section
+                        tbodyRow.insertCell(c).innerText = "Øvre fugtigheds-grænse: (%)";
+                        this.generateInput(tbodyRow, r, sensorObj, id);
+                        break;
+                }
+            }
+        }
+        return table;
+    };
+    Tables.prototype.generateInput = function (tbodyRow, row, sensorObj, id) {
+        var input = document.createElement("input");
+        input.setAttribute("class", "form-control");
+        switch (row) {
+            case 0:
+                tbodyRow.insertCell(-1); // generate td (-1 translates to the end of the row.)
+                input.value = sensorObj.name;
+                input.setAttribute("id", "rowNameInput" + id.toString());
+                // code that sets input value = value from DB
+                tbodyRow.children[1].appendChild(input); // append input into td
+                break;
+            case 1:
+                tbodyRow.insertCell(-1); // generate td (-1 translates to the end of the row.)
+                input.value = sensorObj.limitLow.toString();
+                input.setAttribute("id", "rowLowerInput" + id.toString());
+                // code that sets input value = value from DB
+                tbodyRow.children[1].appendChild(input); // append input into td
+                break;
+            case 2:
+                tbodyRow.insertCell(-1); // generate td (-1 translates to the end of the row.)
+                input.value = sensorObj.limitUp.toString();
+                input.setAttribute("id", "rowUpperInput" + id.toString());
+                // code that sets input value = value from DB
+                tbodyRow.children[1].appendChild(input); // append input into td
+                break;
+        }
+    };
+    return Tables;
 }());
 
 

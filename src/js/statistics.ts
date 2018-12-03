@@ -25,10 +25,8 @@ export class Statistics
     private BASEURI: string = "https://watermasterapi.azurewebsites.net/api/sensor/";
     private sensorID: number = 1;
     
-    private mainDiv: HTMLDivElement = <HTMLDivElement> document.getElementById("statistics");
+    private mainDiv: HTMLDivElement = <HTMLDivElement> document.getElementById("content");
     private accordion: HTMLDivElement = document.createElement("div");
-
-    private sensorList: Array<Sensor>;
 
     constructor()
     {
@@ -41,6 +39,10 @@ export class Statistics
 
         this.mainDiv.appendChild(this.accordion);
 
+        let loadingBar = document.getElementById("loadingBar");
+        let percentage: number = 0;
+
+        let tempSensorList: Array<Sensor> = new Array<Sensor>();
         let userSensors: Array<string>;
 
         await axios.get(this.BASEURI + "userid/" + this.userid)
@@ -51,22 +53,33 @@ export class Statistics
         
         for (let index = 0; index < userSensors.length; index++) {
 
-            let temp: Sensor;
+            let sensor: Sensor;
 
             await axios.get(this.BASEURI + "mac/" + userSensors[index])
             .then(function(response)
-            {
-                temp = response.data as Sensor;
-                //this.sensorList.push(temp);
-            });
+            {   
+                percentage = ((index + 2) / userSensors.length) * 100;
 
-            this.SetUpHTML(temp);
-            this.sensorID++;
+                sensor = response.data as Sensor;
+                tempSensorList.push(sensor);
+
+                loadingBar.setAttribute("aria-valuenow", percentage.toString());
+                loadingBar.setAttribute("style", "width: " + percentage.toString() + "%");
+            });
         }
+
+        this.mainDiv.removeChild(document.getElementById("loadingBarWrapper"));
+
+        tempSensorList.forEach(element => {
+            this.SetUpHTML(element);
+            this.sensorID++;
+        });
     }
 
     SetUpHTML(sensor: any): void
     {
+        let id: number = this.sensorID;
+
         // case
         let card: HTMLDivElement = document.createElement("div");
         card.setAttribute("class", "card");
@@ -96,82 +109,7 @@ export class Statistics
         let cardBody: HTMLDivElement = document.createElement("div");
         cardBody.setAttribute("class", "card-body");
 
-        //table
-        //table create
-        let table: HTMLTableElement = document.createElement("table");
-        table.setAttribute("class", "table table-striped");
-
-
-        //table collums
-        let tabaleThead: HTMLTableSectionElement = document.createElement("thead"); // thead requered for bootstrap
-
-        let tablecolumnRow: HTMLTableRowElement = document.createElement("tr"); //row til columns
-
-        let tablecolumn0: HTMLTableHeaderCellElement = document.createElement("th"); // paragraph column
-        tablecolumn0.innerHTML = "Titler";
-        
-        let tablecolumn1: HTMLTableHeaderCellElement = document.createElement("th"); // input column
-        tablecolumn1.innerHTML = "Input";
-
-
-        // table tbody (used by bootstrap)
-        let tabletbody: HTMLTableSectionElement = document.createElement("tbody");
-
-        // table row
-        let tableRow0 : HTMLTableRowElement = document.createElement("tr");
-        tableRow0.setAttribute("id", "row0"); 
-        
-        let tableRow1 : HTMLTableRowElement = document.createElement("tr");
-        tableRow1.setAttribute("id", "row1"); 
-
-        let tableRow2 : HTMLTableRowElement = document.createElement("tr");
-        tableRow2.setAttribute("id", "row2"); 
-
-
-        // table name
-        let tableRowName : HTMLTableDataCellElement = document.createElement("td")
-        tableRowName.setAttribute("id", "rowName" + this.sensorID.toString());
-        tableRowName.innerHTML = "Navn: ";
-
-        let tableRowNameTd: HTMLTableDataCellElement = document.createElement("td");
-
-        // input name
-        let tableRowNameInput : HTMLInputElement = document.createElement("input");
-        tableRowNameInput.setAttribute("id", "rowNameInput");
-        tableRowNameInput.setAttribute("class", "form-control");
-        tableRowNameInput.setAttribute("placeholder", "indtast navn her");
-        tableRowNameInput.value = sensor.name;
-
-        // table lower
-        let tableRowLower : HTMLTableDataCellElement = document.createElement("td");
-        tableRowLower.setAttribute("id", "rowLower" + this.sensorID.toString());
-        tableRowLower.innerHTML = "Nedre grænse: ";
-
-        let tableRowLowerTd: HTMLTableDataCellElement = document.createElement("td");
-
-        // input lower
-        let tableRowLowerInput : HTMLInputElement = document.createElement("input");
-        tableRowLowerInput.setAttribute("id", "rowLowerInput");
-        tableRowLowerInput.setAttribute("class", "form-control");
-        tableRowLowerInput.setAttribute("placeholder", "indtast laveste grænse her");
-        tableRowLowerInput.value = sensor.limitLow;
-
-        // table upper
-        let tableRowUpper : HTMLTableDataCellElement = document.createElement("td");
-        tableRowUpper.setAttribute("id", "rowUpper" + this.sensorID.toString());
-        tableRowUpper.innerHTML = "Øvre grænse: ";
-
-        let tableRowUpperTd: HTMLTableDataCellElement = document.createElement("td");
-
-        // input Upper
-        let tableRowUpperInput : HTMLInputElement = document.createElement("input");
-        tableRowUpperInput.setAttribute("id", "rowUpperInput");
-        tableRowUpperInput.setAttribute("class", "form-control");
-        tableRowUpperInput.setAttribute("placeholder", "indtast øvre grænse her");
-        tableRowUpperInput.value = sensor.limitUp;
-        
-
-        //appendChild
+        // Append all created elements into the accordion division.
         this.accordion.appendChild(card);
         card.appendChild(cardHeader);
         cardHeader.appendChild(mb0);
@@ -179,7 +117,7 @@ export class Statistics
         this.accordion.appendChild(collapse);
         collapse.appendChild(cardBody);
 
-        // fyld text til body
+        // Create and append paragraph/span elements to show/hold the API data.
         let pname = cardBody.appendChild(document.createElement("p")) as HTMLParagraphElement;
         pname.innerText = "Navn: ";
         let spanname = pname.appendChild(document.createElement("span"));
@@ -222,52 +160,34 @@ export class Statistics
         let spanlimitup = plimitup.appendChild(document.createElement("span"));
         spanlimitup.innerText = sensor.limitUp.toString() + "%";
 
-        // table append
-        cardBody.appendChild(table);
-
-        table.appendChild(tabaleThead);
-        tabaleThead.appendChild(tablecolumnRow);
-        tablecolumnRow.appendChild(tablecolumn0);
-        tablecolumnRow.appendChild(tablecolumn1);
-
-        table.appendChild(tabletbody);
-
-        tabletbody.appendChild(tableRow0);
-
-        tableRow0.appendChild(tableRowName);
-        tableRow0.appendChild(tableRowNameTd);
-        tableRowNameTd.appendChild(tableRowNameInput);
-
-        tabletbody.appendChild(tableRow1);
-
-        tableRow1.appendChild(tableRowLower);
-        tableRow1.appendChild(tableRowLowerTd);
-        tableRowLowerTd.appendChild(tableRowLowerInput);
-
-        tabletbody.appendChild(tableRow2);
-
-        tableRow2.appendChild(tableRowUpper);
-        tableRow2.appendChild(tableRowUpperTd);
-        tableRowUpperTd.appendChild(tableRowUpperInput);
+        cardBody.appendChild(new Tables(2, 3).makeTable(sensor, this.sensorID));
 
         let updBtn = cardBody.appendChild(document.createElement("button"));
         updBtn.setAttribute("value", this.sensorID.toString());
-        updBtn.setAttribute("class", "btn btn-lg btn-primary");
+        updBtn.setAttribute("class", "btn btn-lg btn-primary col-2");
         updBtn.innerText = "Gem Data";
         updBtn.onclick = function() {
             
+            let nameInput = document.getElementById("rowNameInput" + id.toString()) as HTMLInputElement;
+            let lowerLimitInput = document.getElementById("rowLowerInput" + id.toString()) as HTMLInputElement;
+            let upperLimitInput = document.getElementById("rowUpperInput" + id.toString()) as HTMLInputElement;
+
             axios.put("https://watermasterapi.azurewebsites.net/api/sensor/", {
                 macAddress: sensor.macAddress,
-                name: tableRowNameInput.value,
-                limitUp: Number(tableRowUpperInput.value),
-                limitLow: Number(tableRowLowerInput.value),
+                name: nameInput.value,
+                limitUp: Number(upperLimitInput.value),
+                limitLow: Number(lowerLimitInput.value),
                 fK_UserId: sensor.fK_UserId
             })
-            .then(function(response) {
-                spanname.innerText = tableRowNameInput.value;
-                spanlimitup.innerText = tableRowUpperInput.value + "%";
-                spanlimitlow.innerText = tableRowLowerInput.value + "%";
-                //window.location.reload(); // !!
+            .then(function(response)
+            {
+                if (response.status == 200)
+                {
+                    btn.innerText = "#" + id.toString() + " " + nameInput.value;
+                    spanname.innerText = nameInput.value;
+                    spanlimitup.innerText = upperLimitInput.value + "%";
+                    spanlimitlow.innerText = lowerLimitInput.value + "%";
+                }
             });
         };
     }
