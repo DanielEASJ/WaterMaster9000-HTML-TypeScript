@@ -2409,17 +2409,18 @@ var Tables = /** @class */ (function () {
                 switch (r) {
                     case 0: // generate info section
                         tbodyRow.insertCell(c).innerText = "Navn:";
-                        this.generateInput(tbodyRow, r, sensorObj, id);
+                        // this.generateInput(tbodyRow, r, sensorObj, id);
                         break;
                     case 1: // generate info section
                         tbodyRow.insertCell(c).innerText = "Nedre fugtigheds-grænse: (%)";
-                        this.generateInput(tbodyRow, r, sensorObj, id);
+                        // this.generateInput(tbodyRow, r, sensorObj, id);
                         break;
                     case 2: // generate info section
                         tbodyRow.insertCell(c).innerText = "Øvre fugtigheds-grænse: (%)";
-                        this.generateInput(tbodyRow, r, sensorObj, id);
+                        // this.generateInput(tbodyRow, r, sensorObj, id);
                         break;
                 }
+                this.generateInput(tbodyRow, r, sensorObj, id);
             }
         }
         return table;
