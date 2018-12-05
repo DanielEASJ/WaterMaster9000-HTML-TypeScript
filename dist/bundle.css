@@ -49,11 +49,20 @@ nav.navbar {
 .card {
   border: 0 none; }
 
+#accordion .card {
+  margin-top: 0.25rem; }
+
 .card-header {
   border: 1px solid #999; }
 
 div.card-header > h5 > button.btn {
   font-size: 1.4rem !important; }
+
+#accordion .card-header {
+  background-color: #ccc; }
+
+.card-header .btn-link {
+  color: #323232; }
 
 .card-body {
   border: 1px solid #999;
