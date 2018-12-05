@@ -85,14 +85,14 @@ export class Sensors
         card.setAttribute("class", "card");
 
         let cardHeader: HTMLDivElement = document.createElement("div");
-        cardHeader.setAttribute("class", "card-header bg-primary");
+        cardHeader.setAttribute("class", "card-header");
         cardHeader.setAttribute("id", "heading" + this.sensorID.toString());
 
         let mb0: HTMLHeadingElement = document.createElement("h5");
         mb0.setAttribute("class", "mb-0");
 
         let btn: HTMLButtonElement = document.createElement("button");
-        btn.setAttribute("class", "btn btn-link text-white");
+        btn.setAttribute("class", "btn btn-link");
         btn.setAttribute("type", "button");
         btn.setAttribute("data-toggle", "collapse");
         btn.setAttribute("data-target", "#collapse" + this.sensorID.toString());

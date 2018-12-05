@@ -2278,12 +2278,12 @@ var Sensors = /** @class */ (function () {
         var card = document.createElement("div");
         card.setAttribute("class", "card");
         var cardHeader = document.createElement("div");
-        cardHeader.setAttribute("class", "card-header bg-primary");
+        cardHeader.setAttribute("class", "card-header");
         cardHeader.setAttribute("id", "heading" + this.sensorID.toString());
         var mb0 = document.createElement("h5");
         mb0.setAttribute("class", "mb-0");
         var btn = document.createElement("button");
-        btn.setAttribute("class", "btn btn-link text-white");
+        btn.setAttribute("class", "btn btn-link");
         btn.setAttribute("type", "button");
         btn.setAttribute("data-toggle", "collapse");
         btn.setAttribute("data-target", "#collapse" + this.sensorID.toString());
