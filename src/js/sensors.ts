@@ -19,7 +19,7 @@ interface SensorData
     fK_MacAddress: string
 }
 
-export class Statistics
+export class Sensors
 {
     private userid: number = 1;
     private BASEURI: string = "https://watermasterapi.azurewebsites.net/api/sensor/";
@@ -28,15 +28,15 @@ export class Statistics
     private mainDiv: HTMLDivElement = <HTMLDivElement> document.getElementById("content");
     private accordion: HTMLDivElement = document.createElement("div");
 
+
     constructor()
     {
+        this.accordion.setAttribute("class", "accordion");
+        this.accordion.setAttribute("id", "accordion");
     }
 
     async GetByUser()
     {
-        this.accordion.setAttribute("class", "accordion");
-        this.accordion.setAttribute("id", "accordion");
-
         this.mainDiv.appendChild(this.accordion);
 
         let loadingBar = document.getElementById("loadingBar");

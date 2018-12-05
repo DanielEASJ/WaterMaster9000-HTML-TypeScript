@@ -97,7 +97,7 @@ export class NewSensor
             {
                 if (response.status == 200)
                 {
-                    window.location.href = "statistics.htm";
+                    window.location.href = "sensors.htm";
                 }
             });
         }
