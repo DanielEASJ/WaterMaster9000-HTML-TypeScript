@@ -81,17 +81,20 @@ export class Sensors
         let id: number = this.sensorID;
 
         // case
-        let card: HTMLDivElement = document.createElement("div");
+        let card = document.createElement("div") as HTMLDivElement;
         card.setAttribute("class", "card");
 
-        let cardHeader: HTMLDivElement = document.createElement("div");
+        let cardHeader = document.createElement("div") as HTMLDivElement;
         cardHeader.setAttribute("class", "card-header");
         cardHeader.setAttribute("id", "heading" + this.sensorID.toString());
 
-        let mb0: HTMLHeadingElement = document.createElement("h5");
+        let statusIcon = document.createElement("i") as HTMLElement;
+        statusIcon.setAttribute("class", "fas fa-check text-success float-right");
+
+        let mb0 = document.createElement("h5") as HTMLHeadingElement;
         mb0.setAttribute("class", "mb-0");
 
-        let btn: HTMLButtonElement = document.createElement("button");
+        let btn = document.createElement("button") as HTMLButtonElement;
         btn.setAttribute("class", "btn btn-link");
         btn.setAttribute("type", "button");
         btn.setAttribute("data-toggle", "collapse");
@@ -100,13 +103,13 @@ export class Sensors
         btn.setAttribute("aria-controls", "collapse" + this.sensorID.toString());
         btn.innerText = "#" + this.sensorID + " " + sensor.name;
 
-        let collapse: HTMLDivElement = document.createElement("div");
+        let collapse = document.createElement("div") as HTMLDivElement;
         collapse.setAttribute("class", "collapse mb-1");
         collapse.setAttribute("id", "collapse" + this.sensorID.toString());
         collapse.setAttribute("aria-labelledby", "heading" + this.sensorID.toString());
         collapse.setAttribute("data-parent", "#accordion");
 
-        let cardBody: HTMLDivElement = document.createElement("div");
+        let cardBody = document.createElement("div") as HTMLDivElement;
         cardBody.setAttribute("class", "card-body");
 
         // Append all created elements into the accordion division.
@@ -114,6 +117,7 @@ export class Sensors
         card.appendChild(cardHeader);
         cardHeader.appendChild(mb0);
         mb0.appendChild(btn);
+        mb0.appendChild(statusIcon);
         this.accordion.appendChild(collapse);
         collapse.appendChild(cardBody);
 

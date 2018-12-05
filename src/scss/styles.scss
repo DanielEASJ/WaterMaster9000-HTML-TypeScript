@@ -60,7 +60,8 @@ nav.navbar {
 }
 
 #loadingBarWrapper {
-    margin-top: 100px;
+    margin-top: 50px;
+    text-align: center;
 }
 
 /* Overrides: Card */
@@ -94,4 +95,11 @@ div.card-header > h5 > button.btn {
 .card-body {
     border: 1px solid $defaultBorderColor;
     border-top: 0 none;
+}
+
+/* Overrides: Icons */
+
+.card-header i.fa-check {
+    font-size: 1.6rem;
+    padding: 0.6rem;
 }
