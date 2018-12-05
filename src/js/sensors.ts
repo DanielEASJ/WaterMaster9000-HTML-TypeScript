@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Tables } from './tables';
+import { DateFormat } from './dateFormat';
 
 interface Sensor
 {
@@ -15,7 +16,7 @@ interface SensorData
 {
     id: number,
     humidity: number,
-    date: string,
+    date: Date,
     fK_MacAddress: string
 }
 
@@ -24,6 +25,7 @@ export class Sensors
     private userid: number = 1;
     private BASEURI: string = "https://watermasterapi.azurewebsites.net/api/sensor/";
     private sensorID: number = 1;
+    private dateFormatter: DateFormat = new DateFormat();
     
     private mainDiv: HTMLDivElement = <HTMLDivElement> document.getElementById("content");
     private accordion: HTMLDivElement = document.createElement("div");
@@ -89,7 +91,19 @@ export class Sensors
         cardHeader.setAttribute("id", "heading" + this.sensorID.toString());
 
         let statusIcon = document.createElement("i") as HTMLElement;
-        statusIcon.setAttribute("class", "fas fa-check text-success float-right");
+        
+        if (this.dateFormatter.timeDifference(sensor.data.date) < 5)
+        {
+            statusIcon.setAttribute("class", "fas fa-check text-success float-right");
+        }
+        else if (this.dateFormatter.timeDifference(sensor.data.date) > 5 && this.dateFormatter.timeDifference(sensor.data.date) < 15)
+        {
+            statusIcon.setAttribute("class", "fas fa-exclamation text-warning float-right");
+        }
+        else
+        {
+            statusIcon.setAttribute("class", "fas fa-skull-crossbones text-danger float-right");
+        }
 
         let mb0 = document.createElement("h5") as HTMLHeadingElement;
         mb0.setAttribute("class", "mb-0");
@@ -140,13 +154,8 @@ export class Sensors
 
         if (sensor.data != null)
         {
-            var msec = Date.parse(sensor.data.date);
-            var d = new Date(msec);
-            var formatted = d.getDate() + "/" + (d.getMonth() +1) + "/" + d.getFullYear() + " " +
-                            d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
-            
             spanhumidity.innerText = sensor.data.humidity + "%";
-            spandate.innerText = formatted;
+            spandate.innerText = this.dateFormatter.formatDate(sensor.data.date);
         }
         else
         {
@@ -168,7 +177,7 @@ export class Sensors
 
         let updBtn = cardBody.appendChild(document.createElement("button"));
         updBtn.setAttribute("value", this.sensorID.toString());
-        updBtn.setAttribute("class", "btn btn-lg btn-primary col-2");
+        updBtn.setAttribute("class", "btn btn-lg btn-primary");
         updBtn.innerText = "Gem Data";
         updBtn.onclick = function() {
             

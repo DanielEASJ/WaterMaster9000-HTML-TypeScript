@@ -2034,6 +2034,39 @@ var Alert = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/js/dateFormat.ts":
+/*!******************************!*\
+  !*** ./src/js/dateFormat.ts ***!
+  \******************************/
+/*! exports provided: DateFormat */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DateFormat", function() { return DateFormat; });
+var DateFormat = /** @class */ (function () {
+    function DateFormat() {
+    }
+    DateFormat.prototype.formatDate = function (date) {
+        var d = new Date(date);
+        this.doTimezone(d);
+        var formattedDate = d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear() + " " +
+            d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
+        return formattedDate.toString();
+    };
+    DateFormat.prototype.doTimezone = function (date) {
+        date.setMinutes(date.getMinutes() + date.getTimezoneOffset());
+    };
+    DateFormat.prototype.timeDifference = function (date) {
+        return (((Date.now() - Date.parse(date.toString())) / 1000) / 60) + 60;
+    };
+    return DateFormat;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/js/index.ts":
 /*!*************************!*\
   !*** ./src/js/index.ts ***!
@@ -2049,6 +2082,17 @@ __webpack_require__.r(__webpack_exports__);
 
 var url = window.location.pathname;
 var filename = url.substring(url.lastIndexOf('/') + 1);
+// let loginTest = new Login();
+// if (loginTest.IsLoggedIn() != true)
+// {
+//     //window.location.href = "login.htm";
+// }
+// else
+// {
+//     if (filename == "login.htm")
+//     {
+//         window.location.href = "index.htm";
+//     }
 if (filename == "sensors.htm") {
     var stats = new _sensors__WEBPACK_IMPORTED_MODULE_0__["Sensors"]();
     stats.GetByUser();
@@ -2056,6 +2100,7 @@ if (filename == "sensors.htm") {
 if (filename == "sensors-new.htm") {
     new _sensors_new__WEBPACK_IMPORTED_MODULE_1__["NewSensor"]();
 }
+// }
 
 
 /***/ }),
@@ -2167,6 +2212,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _tables__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tables */ "./src/js/tables.ts");
+/* harmony import */ var _dateFormat__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./dateFormat */ "./src/js/dateFormat.ts");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -2204,11 +2250,13 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 };
 
 
+
 var Sensors = /** @class */ (function () {
     function Sensors() {
         this.userid = 1;
         this.BASEURI = "https://watermasterapi.azurewebsites.net/api/sensor/";
         this.sensorID = 1;
+        this.dateFormatter = new _dateFormat__WEBPACK_IMPORTED_MODULE_2__["DateFormat"]();
         this.mainDiv = document.getElementById("content");
         this.accordion = document.createElement("div");
         this.accordion.setAttribute("class", "accordion");
@@ -2281,7 +2329,15 @@ var Sensors = /** @class */ (function () {
         cardHeader.setAttribute("class", "card-header");
         cardHeader.setAttribute("id", "heading" + this.sensorID.toString());
         var statusIcon = document.createElement("i");
-        statusIcon.setAttribute("class", "fas fa-check text-success float-right");
+        if (this.dateFormatter.timeDifference(sensor.data.date) < 5) {
+            statusIcon.setAttribute("class", "fas fa-check text-success float-right");
+        }
+        else if (this.dateFormatter.timeDifference(sensor.data.date) > 5 && this.dateFormatter.timeDifference(sensor.data.date) < 15) {
+            statusIcon.setAttribute("class", "fas fa-exclamation text-warning float-right");
+        }
+        else {
+            statusIcon.setAttribute("class", "fas fa-skull-crossbones text-danger float-right");
+        }
         var mb0 = document.createElement("h5");
         mb0.setAttribute("class", "mb-0");
         var btn = document.createElement("button");
@@ -2321,12 +2377,8 @@ var Sensors = /** @class */ (function () {
         pdate.innerText = "Tidspunkt: ";
         var spandate = pdate.appendChild(document.createElement("span"));
         if (sensor.data != null) {
-            var msec = Date.parse(sensor.data.date);
-            var d = new Date(msec);
-            var formatted = d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear() + " " +
-                d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
             spanhumidity.innerText = sensor.data.humidity + "%";
-            spandate.innerText = formatted;
+            spandate.innerText = this.dateFormatter.formatDate(sensor.data.date);
         }
         else {
             spanhumidity.innerText = "..";
@@ -2343,7 +2395,7 @@ var Sensors = /** @class */ (function () {
         cardBody.appendChild(new _tables__WEBPACK_IMPORTED_MODULE_1__["Tables"](2, 3).makeTable(sensor, this.sensorID));
         var updBtn = cardBody.appendChild(document.createElement("button"));
         updBtn.setAttribute("value", this.sensorID.toString());
-        updBtn.setAttribute("class", "btn btn-lg btn-primary col-2");
+        updBtn.setAttribute("class", "btn btn-lg btn-primary");
         updBtn.innerText = "Gem Data";
         updBtn.onclick = function () {
             var nameInput = document.getElementById("rowNameInput" + id.toString());

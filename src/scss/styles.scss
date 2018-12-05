@@ -97,9 +97,17 @@ div.card-header > h5 > button.btn {
     border-top: 0 none;
 }
 
+.card-header h1,h2,h3,h4,h5 {
+    margin-bottom: 0;
+}
+
 /* Overrides: Icons */
 
-.card-header i.fa-check {
+#accordion .card-header i.fas {
     font-size: 1.6rem;
     padding: 0.6rem;
+}
+
+#accordion .card-header i.fa-exclamation {
+    margin-right: 0.5rem;
 }

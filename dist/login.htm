@@ -25,61 +25,30 @@
 </head>
 
 <body>
-  <div w3-include-html="includes/navigation.htm"></div>
-  <div id="main" class="container">
+  <div id="main" class="container" style="width: 400px; margin-top: 100px;">
 
   <!-- Content that differs -->
 
-  <div class="row">
-    <div class="col">
-      <h1>Forside</h1>
+    <div class="row">
+        <div class="col">
+            <h1>Log på</h1>
+        </div>
     </div>
-  </div>
-  <div class="row">
-      <div class="col" id="alerts"></div>
-  </div>
-  <div class="row">
-    <div class="col">
-      <div class="card mb-3">
-        <div class="card-header bg-success">
-          <h4>System Status
-              <i class="fas fa-check float-right" style="font-size: 1.6rem;"></i>
-          </h4>
+    <div class="row mb-3">
+        <div class="col">
+            <input type="text" id="username" placeholder="Brugernavn" class="form-control form-control-lg">
         </div>
-        <div class="card-body">
-          <p>Systemet fungerer optimalt.</p>
-        </div>
-      </div>
-      <div class="card mb-3">
-        <div class="card-header bg-warning">System Status
-          <i class="fas fa-exclamation-triangle float-right" style="font-size: 1.6rem;"></i>
-        </div>
-        <div class="card-body">
-          <p>System fejl.</p>
-        </div>
-      </div>
-      <div class="card mb-3">
-      <div class="card-header bg-danger">System Status
-        <i class="fas fa-skull-crossbones float-right" style="font-size: 1.6rem;"></i>
-      </div>
-      <div class="card-body">
-        <p>Nej.. køb et nyt system.</p>
-      </div>
-      </div>
     </div>
-    <div class="col">
-      <div class="card">
-        <div class="card-header">
-          Featured
+    <div class="row mb-3">
+        <div class="col">
+            <input type="password" id="password" placeholder="Password" class="form-control form-control-lg">
         </div>
-        <div class="card-body">
-          <h5 class="card-title">Special title treatment</h5>
-          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
     </div>
-  </div>
+    <div class="row mb-3">
+        <div class="col">
+            <button class="btn btn-lg btn-primary btn-block" id="btnLogin">Log På</button>
+        </div>
+    </div>
 
   <!-- End -->
 
