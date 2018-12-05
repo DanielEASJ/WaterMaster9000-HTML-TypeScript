@@ -2278,12 +2278,14 @@ var Sensors = /** @class */ (function () {
         var card = document.createElement("div");
         card.setAttribute("class", "card");
         var cardHeader = document.createElement("div");
-        cardHeader.setAttribute("class", "card-header bg-primary");
+        cardHeader.setAttribute("class", "card-header");
         cardHeader.setAttribute("id", "heading" + this.sensorID.toString());
+        var statusIcon = document.createElement("i");
+        statusIcon.setAttribute("class", "fas fa-check text-success float-right");
         var mb0 = document.createElement("h5");
         mb0.setAttribute("class", "mb-0");
         var btn = document.createElement("button");
-        btn.setAttribute("class", "btn btn-link text-white");
+        btn.setAttribute("class", "btn btn-link");
         btn.setAttribute("type", "button");
         btn.setAttribute("data-toggle", "collapse");
         btn.setAttribute("data-target", "#collapse" + this.sensorID.toString());
@@ -2302,6 +2304,7 @@ var Sensors = /** @class */ (function () {
         card.appendChild(cardHeader);
         cardHeader.appendChild(mb0);
         mb0.appendChild(btn);
+        mb0.appendChild(statusIcon);
         this.accordion.appendChild(collapse);
         collapse.appendChild(cardBody);
         // Create and append paragraph/span elements to show/hold the API data.

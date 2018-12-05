@@ -60,7 +60,8 @@ nav.navbar {
 }
 
 #loadingBarWrapper {
-    margin-top: 100px;
+    margin-top: 50px;
+    text-align: center;
 }
 
 /* Overrides: Card */
@@ -71,6 +72,10 @@ $defaultBorderColor: #999;
     border: 0 none;
 }
 
+#accordion .card {
+    margin-top: 0.25rem;
+}
+
 .card-header {
     border: 1px solid $defaultBorderColor;
 }
@@ -79,7 +84,22 @@ div.card-header > h5 > button.btn {
     font-size: 1.4rem !important;
 }
 
+#accordion .card-header {
+    background-color: #ccc;
+}
+
+.card-header .btn-link {
+    color: $defaultColor;
+}
+
 .card-body {
     border: 1px solid $defaultBorderColor;
     border-top: 0 none;
+}
+
+/* Overrides: Icons */
+
+.card-header i.fa-check {
+    font-size: 1.6rem;
+    padding: 0.6rem;
 }

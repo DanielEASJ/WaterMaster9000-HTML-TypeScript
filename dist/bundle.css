@@ -43,11 +43,15 @@ nav.navbar {
   margin-bottom: 25px; }
 
 #loadingBarWrapper {
-  margin-top: 100px; }
+  margin-top: 50px;
+  text-align: center; }
 
 /* Overrides: Card */
 .card {
   border: 0 none; }
+
+#accordion .card {
+  margin-top: 0.25rem; }
 
 .card-header {
   border: 1px solid #999; }
@@ -55,6 +59,17 @@ nav.navbar {
 div.card-header > h5 > button.btn {
   font-size: 1.4rem !important; }
 
+#accordion .card-header {
+  background-color: #ccc; }
+
+.card-header .btn-link {
+  color: #323232; }
+
 .card-body {
   border: 1px solid #999;
   border-top: 0 none; }
+
+/* Overrides: Icons */
+.card-header i.fa-check {
+  font-size: 1.6rem;
+  padding: 0.6rem; }
