@@ -1,17 +1,17 @@
 import axios from 'axios';
-import { Statistics } from './statistics';
-import { NewSensor } from './statistics-new-sensor';
+import { Sensors } from './sensors';
+import { NewSensor } from './sensors-new';
 
 let url = window.location.pathname;
 let filename = url.substring(url.lastIndexOf('/') + 1);
 
-if (filename == "statistics.htm")
+if (filename == "sensors.htm")
 {
-    let stats = new Statistics();
+    let stats = new Sensors();
     stats.GetByUser();
 }
 
-if (filename == "statistics-new-sensor.htm")
+if (filename == "sensors-new.htm")
 {
     new NewSensor();
 }

@@ -2043,27 +2043,27 @@ var Alert = /** @class */ (function () {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _statistics__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./statistics */ "./src/js/statistics.ts");
-/* harmony import */ var _statistics_new_sensor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./statistics-new-sensor */ "./src/js/statistics-new-sensor.ts");
+/* harmony import */ var _sensors__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./sensors */ "./src/js/sensors.ts");
+/* harmony import */ var _sensors_new__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./sensors-new */ "./src/js/sensors-new.ts");
 
 
 var url = window.location.pathname;
 var filename = url.substring(url.lastIndexOf('/') + 1);
-if (filename == "statistics.htm") {
-    var stats = new _statistics__WEBPACK_IMPORTED_MODULE_0__["Statistics"]();
+if (filename == "sensors.htm") {
+    var stats = new _sensors__WEBPACK_IMPORTED_MODULE_0__["Sensors"]();
     stats.GetByUser();
 }
-if (filename == "statistics-new-sensor.htm") {
-    new _statistics_new_sensor__WEBPACK_IMPORTED_MODULE_1__["NewSensor"]();
+if (filename == "sensors-new.htm") {
+    new _sensors_new__WEBPACK_IMPORTED_MODULE_1__["NewSensor"]();
 }
 
 
 /***/ }),
 
-/***/ "./src/js/statistics-new-sensor.ts":
-/*!*****************************************!*\
-  !*** ./src/js/statistics-new-sensor.ts ***!
-  \*****************************************/
+/***/ "./src/js/sensors-new.ts":
+/*!*******************************!*\
+  !*** ./src/js/sensors-new.ts ***!
+  \*******************************/
 /*! exports provided: NewSensor */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2142,7 +2142,7 @@ var NewSensor = /** @class */ (function () {
             })
                 .then(function (response) {
                 if (response.status == 200) {
-                    window.location.href = "statistics.htm";
+                    window.location.href = "sensors.htm";
                 }
             });
         }
@@ -2154,16 +2154,16 @@ var NewSensor = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/js/statistics.ts":
-/*!******************************!*\
-  !*** ./src/js/statistics.ts ***!
-  \******************************/
-/*! exports provided: Statistics */
+/***/ "./src/js/sensors.ts":
+/*!***************************!*\
+  !*** ./src/js/sensors.ts ***!
+  \***************************/
+/*! exports provided: Sensors */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Statistics", function() { return Statistics; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Sensors", function() { return Sensors; });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _tables__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tables */ "./src/js/tables.ts");
@@ -2204,23 +2204,23 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 };
 
 
-var Statistics = /** @class */ (function () {
-    function Statistics() {
+var Sensors = /** @class */ (function () {
+    function Sensors() {
         this.userid = 1;
         this.BASEURI = "https://watermasterapi.azurewebsites.net/api/sensor/";
         this.sensorID = 1;
         this.mainDiv = document.getElementById("content");
         this.accordion = document.createElement("div");
+        this.accordion.setAttribute("class", "accordion");
+        this.accordion.setAttribute("id", "accordion");
     }
-    Statistics.prototype.GetByUser = function () {
+    Sensors.prototype.GetByUser = function () {
         return __awaiter(this, void 0, void 0, function () {
             var loadingBar, percentage, tempSensorList, userSensors, _loop_1, this_1, index;
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        this.accordion.setAttribute("class", "accordion");
-                        this.accordion.setAttribute("id", "accordion");
                         this.mainDiv.appendChild(this.accordion);
                         loadingBar = document.getElementById("loadingBar");
                         percentage = 0;
@@ -2272,7 +2272,7 @@ var Statistics = /** @class */ (function () {
             });
         });
     };
-    Statistics.prototype.SetUpHTML = function (sensor) {
+    Sensors.prototype.SetUpHTML = function (sensor) {
         var id = this.sensorID;
         // case
         var card = document.createElement("div");
@@ -2363,7 +2363,7 @@ var Statistics = /** @class */ (function () {
             });
         };
     };
-    return Statistics;
+    return Sensors;
 }());
 
 
