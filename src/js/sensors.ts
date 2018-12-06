@@ -2,6 +2,7 @@ import axios from 'axios';
 import { Tables } from './tables';
 import { DateFormat } from './dateFormat';
 
+// represents Raspberry Pi's
 interface Sensor
 {
     macAddress: string,
@@ -9,9 +10,10 @@ interface Sensor
     limitUp: number,
     limitLow: number,
     fK_UserId: number,
-    data: SensorData
+    data: SensorData // data from SensorData interface
 }
 
+// represents data from Raspberry Pi
 interface SensorData
 {
     id: number,

@@ -28,8 +28,9 @@ export class Alert
             closeSpan.setAttribute("aria-hidden", "true");
             closeSpan.innerText = "×";
 
-        closeAlert.appendChild(closeSpan);
         alert.appendChild(closeAlert);
+        closeAlert.appendChild(closeSpan);
+
 
         return alert;
     }
