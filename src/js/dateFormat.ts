@@ -7,6 +7,7 @@ export class DateFormat
         let d = new Date(date) as Date;
         this.doTimezone(d);
         
+        //getMounth() - method is 0 indexed, that is why we add + 1
         let formattedDate = d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear() + " " +
                         d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
 

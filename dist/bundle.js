@@ -2023,8 +2023,8 @@ var Alert = /** @class */ (function () {
         var closeSpan = document.createElement("span");
         closeSpan.setAttribute("aria-hidden", "true");
         closeSpan.innerText = "×";
-        closeAlert.appendChild(closeSpan);
         alert.appendChild(closeAlert);
+        closeAlert.appendChild(closeSpan);
         return alert;
     };
     return Alert;
@@ -2050,6 +2050,7 @@ var DateFormat = /** @class */ (function () {
     DateFormat.prototype.formatDate = function (date) {
         var d = new Date(date);
         this.doTimezone(d);
+        //getMounth() - method is 0 indexed, that is why we add + 1
         var formattedDate = d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear() + " " +
             d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
         return formattedDate.toString();
