@@ -12,13 +12,13 @@ export class NewSensor
     PostNewSensor()
     {
         let BASEURI: string = "https://watermasterapi.azurewebsites.net/api/sensor/";
-        
         let inputMA = document.getElementById("newMacAddress") as HTMLInputElement;
         let inputName = document.getElementById("newName") as HTMLInputElement;
         let inputLL = document.getElementById("newLowerLimit") as HTMLInputElement;
         let inputUL = document.getElementById("newUpperLimit") as HTMLInputElement;
         let inputUID = document.getElementById("newUserId") as HTMLInputElement;
-        
+        inputUID.value = document.cookie.toString().substr(7, document.cookie.toString().length);
+
         let validation: boolean = true;
 
         let content = document.getElementById("alerts") as HTMLDivElement;

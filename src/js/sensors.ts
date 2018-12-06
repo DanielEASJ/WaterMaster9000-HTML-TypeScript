@@ -30,7 +30,6 @@ export class Sensors
     private mainDiv: HTMLDivElement = <HTMLDivElement> document.getElementById("content");
     private accordion: HTMLDivElement = document.createElement("div");
 
-
     constructor()
     {
         this.accordion.setAttribute("class", "accordion");
@@ -47,6 +46,8 @@ export class Sensors
         let tempSensorList: Array<Sensor> = new Array<Sensor>();
         let userSensors: Array<string>;
 
+        this.userid = Number(document.cookie.toString().substr(7, document.cookie.toString().length));
+
         await axios.get(this.BASEURI + "userid/" + this.userid)
         .then(function(response)
         {
@@ -59,7 +60,8 @@ export class Sensors
 
             await axios.get(this.BASEURI + "mac/" + userSensors[index])
             .then(function(response)
-            {   
+            {
+                console.log(response.data);
                 percentage = ((index + 2) / userSensors.length) * 100;
 
                 sensor = response.data as Sensor;
@@ -92,13 +94,20 @@ export class Sensors
 
         let statusIcon = document.createElement("i") as HTMLElement;
         
-        if (this.dateFormatter.timeDifference(sensor.data.date) < 5)
+        if (sensor.data != null)
         {
-            statusIcon.setAttribute("class", "fas fa-check text-success float-right");
-        }
-        else if (this.dateFormatter.timeDifference(sensor.data.date) > 5 && this.dateFormatter.timeDifference(sensor.data.date) < 15)
-        {
-            statusIcon.setAttribute("class", "fas fa-exclamation text-warning float-right");
+            if (this.dateFormatter.timeDifference(sensor.data.date) < 5)
+            {
+                statusIcon.setAttribute("class", "fas fa-check text-success float-right");
+            }
+            else if (this.dateFormatter.timeDifference(sensor.data.date) > 5 && this.dateFormatter.timeDifference(sensor.data.date) < 15)
+            {
+                statusIcon.setAttribute("class", "fas fa-exclamation text-warning float-right");
+            }
+            else
+            {
+                statusIcon.setAttribute("class", "fas fa-skull-crossbones text-danger float-right");
+            }
         }
         else
         {

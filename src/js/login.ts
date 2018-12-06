@@ -1,25 +1,40 @@
+import axios, { AxiosPromise } from 'axios';
+
 export class Login
 {
-    private status: boolean = true;
+    private status: boolean = false;
+    private curpath: string = window.location.pathname;
+    private curpage: string = this.curpath.substring(this.curpath.lastIndexOf('/') + 1);
 
     constructor()
     {
-        let btn = document.getElementById("btnLogin") as HTMLButtonElement;
-        btn.addEventListener("click", this.Login);
+        if (this.curpage == "login.htm")
+        {
+            let btn = document.getElementById("btnLogin") as HTMLButtonElement;
+            btn.addEventListener("click", this.Login);
+        }
     }
 
-    Login(): void
+    async Login()
     {
         if (() => this.IsLoggedIn() == false)
         {
-            console.log("Hej");
+            let BASEURI: string = "https://watermasterapi.azurewebsites.net/api/user/login/";
             let username = document.getElementById("username") as HTMLInputElement;
             let password = document.getElementById("password") as HTMLInputElement;
 
-            if(username.value == "Michael" && password.value == "123")
+            let tempReponse: number = 0;
+
+            await axios.get(BASEURI + username.value + "&&" + password.value)
+            .then(function(response)
             {
-                this.status = true;
-                //document.cookie = "username=Michael; password=123; expires=Thu, 18 Dec 2013 12:00:00 UTC; path=/";
+                tempReponse = Number(response.data);
+            });
+
+            if (tempReponse != 0)
+            {
+                document.cookie = "USERID=" + tempReponse.toString();
+                this.status = true;                
                 window.location.href = "index.htm";
             }
         }
@@ -31,6 +46,14 @@ export class Login
 
     IsLoggedIn(): boolean
     {
+        if (document.cookie.toString().substr(0, 6) == "USERID")
+        {
+            this.status = true;
+        }
+        else
+        {
+            this.status = false;
+        }
         return this.status;
     }
 }
