@@ -2046,9 +2046,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Consumption", function() { return Consumption; });
 var Consumption = /** @class */ (function () {
     function Consumption() {
-        this.WaterAmount = 48.00;
-        this.WateringNums = 12.00;
-        this.WaterPrice = 2.30;
+        this.WaterAmount = 0.5;
+        this.WateringNums = 46.00;
+        this.WaterPrice = 15.99;
         this.Total = 0.00;
         this.WaterAmountCell = document.getElementById("consumptionWaterAmount");
         this.WateringNumsCell = document.getElementById("consumptionWateringNums");
@@ -2056,11 +2056,18 @@ var Consumption = /** @class */ (function () {
         this.TotalCell = document.getElementById("consumptionTotal");
         this.calcTotal();
     }
+    Consumption.prototype.numFormat = function (num) {
+        return (num
+            .toFixed(2) // Set the number of desired decimals.
+            .replace('.', ',') // Replace all points with commas.
+            .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') // Then put a point for every thousand in the number.
+        );
+    };
     Consumption.prototype.doConsumption = function () {
-        this.WaterAmountCell.innerText = this.WaterAmount.toFixed(2);
-        this.WateringNumsCell.innerText = this.WateringNums.toFixed(2);
-        this.WaterPriceCell.innerText = this.WaterPrice.toFixed(2);
-        this.TotalCell.innerText = this.Total.toFixed(2);
+        this.WaterAmountCell.innerText = this.numFormat(this.WaterAmount);
+        this.WateringNumsCell.innerText = this.numFormat(this.WateringNums);
+        this.WaterPriceCell.innerText = this.numFormat(this.WaterPrice);
+        this.TotalCell.innerText = this.numFormat(this.Total);
     };
     Consumption.prototype.calcTotal = function () {
         var total = 0;

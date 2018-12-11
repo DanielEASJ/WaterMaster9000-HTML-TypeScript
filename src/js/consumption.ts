@@ -1,8 +1,8 @@
 export class Consumption
 {
-    private WaterAmount: number = 48.00;
-    private WateringNums: number = 12.00;
-    private WaterPrice: number = 2.30;
+    private WaterAmount: number = 0.5;
+    private WateringNums: number = 46.00;
+    private WaterPrice: number = 15.99;
     private Total: number = 0.00;
 
     private WaterAmountCell = document.getElementById("consumptionWaterAmount") as HTMLTableCellElement;
@@ -14,13 +14,22 @@ export class Consumption
     {
         this.calcTotal();
     }
+    
+    numFormat(num: number): string
+    {
+        return (num
+            .toFixed(2) // Set the number of desired decimals.
+            .replace('.', ',')  // Replace all points with commas.
+            .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') // Then put a point for every thousand in the number.
+        );
+    }
 
     doConsumption(): void
     {
-        this.WaterAmountCell.innerText = this.WaterAmount.toFixed(2);
-        this.WateringNumsCell.innerText = this.WateringNums.toFixed(2);
-        this.WaterPriceCell.innerText = this.WaterPrice.toFixed(2);
-        this.TotalCell.innerText = this.Total.toFixed(2);
+        this.WaterAmountCell.innerText = this.numFormat(this.WaterAmount);
+        this.WateringNumsCell.innerText = this.numFormat(this.WateringNums);
+        this.WaterPriceCell.innerText = this.numFormat(this.WaterPrice);
+        this.TotalCell.innerText = this.numFormat(this.Total);
     }
 
     calcTotal(): void
