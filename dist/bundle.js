@@ -2034,6 +2034,46 @@ var Alert = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/js/consumption.ts":
+/*!*******************************!*\
+  !*** ./src/js/consumption.ts ***!
+  \*******************************/
+/*! exports provided: Consumption */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Consumption", function() { return Consumption; });
+var Consumption = /** @class */ (function () {
+    function Consumption() {
+        this.WaterAmount = 48.00;
+        this.WateringNums = 12.00;
+        this.WaterPrice = 2.30;
+        this.Total = 0.00;
+        this.WaterAmountCell = document.getElementById("consumptionWaterAmount");
+        this.WateringNumsCell = document.getElementById("consumptionWateringNums");
+        this.WaterPriceCell = document.getElementById("consumptionWaterPrice");
+        this.TotalCell = document.getElementById("consumptionTotal");
+        this.calcTotal();
+    }
+    Consumption.prototype.doConsumption = function () {
+        this.WaterAmountCell.innerText = this.WaterAmount.toFixed(2);
+        this.WateringNumsCell.innerText = this.WateringNums.toFixed(2);
+        this.WaterPriceCell.innerText = this.WaterPrice.toFixed(2);
+        this.TotalCell.innerText = this.Total.toFixed(2);
+    };
+    Consumption.prototype.calcTotal = function () {
+        var total = 0;
+        total = (this.WaterAmount * this.WaterPrice) * this.WateringNums;
+        this.Total = total;
+    };
+    return Consumption;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/js/dateFormat.ts":
 /*!******************************!*\
   !*** ./src/js/dateFormat.ts ***!
@@ -2080,6 +2120,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _sensors__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./sensors */ "./src/js/sensors.ts");
 /* harmony import */ var _sensors_new__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./sensors-new */ "./src/js/sensors-new.ts");
 /* harmony import */ var _login__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./login */ "./src/js/login.ts");
+/* harmony import */ var _consumption__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./consumption */ "./src/js/consumption.ts");
+
 
 
 
@@ -2096,6 +2138,10 @@ if (loginTest.IsLoggedIn() == true) {
     }
     if (filename == "sensors-new.htm") {
         new _sensors_new__WEBPACK_IMPORTED_MODULE_1__["NewSensor"]();
+    }
+    if (filename == "consumption.htm") {
+        var consume = new _consumption__WEBPACK_IMPORTED_MODULE_3__["Consumption"]();
+        consume.doConsumption();
     }
 }
 else {
@@ -2440,19 +2486,26 @@ var Sensors = /** @class */ (function () {
         cardHeader.setAttribute("class", "card-header");
         cardHeader.setAttribute("id", "heading" + this.sensorID.toString());
         var statusIcon = document.createElement("i");
+        statusIcon.setAttribute("tabindex", "0");
+        statusIcon.setAttribute("data-toggle", "tooltip");
+        statusIcon.setAttribute("data-placement", "left");
         if (sensor.data != null) {
-            if (this.dateFormatter.timeDifference(sensor.data.date) < 5) {
+            if (this.dateFormatter.timeDifference(sensor.data.date) < 10) {
                 statusIcon.setAttribute("class", "fas fa-check text-success float-right");
+                statusIcon.setAttribute("title", "Sensoren fungerer som den skal.");
             }
-            else if (this.dateFormatter.timeDifference(sensor.data.date) > 5 && this.dateFormatter.timeDifference(sensor.data.date) < 15) {
+            else if (this.dateFormatter.timeDifference(sensor.data.date) > 10 && this.dateFormatter.timeDifference(sensor.data.date) < 20) {
                 statusIcon.setAttribute("class", "fas fa-exclamation text-warning float-right");
+                statusIcon.setAttribute("title", "Sensoren har sprunget den seneste måling over!");
             }
             else {
                 statusIcon.setAttribute("class", "fas fa-skull-crossbones text-danger float-right");
+                statusIcon.setAttribute("title", "Sensoren måler ikke længere..!");
             }
         }
         else {
-            statusIcon.setAttribute("class", "fas fa-skull-crossbones text-danger float-right");
+            statusIcon.setAttribute("class", "fas fa-exclamation text-warning float-right");
+            statusIcon.setAttribute("title", "Sensoren har ikke foretaget sin første måling endnu.");
         }
         var mb0 = document.createElement("h5");
         mb0.setAttribute("class", "mb-0");
