@@ -2046,6 +2046,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Consumption", function() { return Consumption; });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _dateFormat__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./dateFormat */ "./src/js/dateFormat.ts");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -2082,17 +2083,21 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
     }
 };
 
+
 var Consumption = /** @class */ (function () {
     function Consumption() {
         this.WaterAmount = 0.5;
-        this.WateringNums = 46.00;
         this.WaterPrice = 15.99;
+        this.WateringNums = 0.00;
         this.Total = 0.00;
         this.WaterAmountCell = document.getElementById("consumptionWaterAmount");
-        this.WateringNumsCell = document.getElementById("consumptionWateringNums");
         this.WaterPriceCell = document.getElementById("consumptionWaterPrice");
+        this.WateringNumsCell = document.getElementById("consumptionWateringNums");
         this.TotalCell = document.getElementById("consumptionTotal");
-        this.BASEURI = "https://watermasterapi.azurewebsites.net/api/user/";
+        this.TimePeriodElement = document.getElementById("consumptionTimePeriod");
+        this.dateFormatter = new _dateFormat__WEBPACK_IMPORTED_MODULE_1__["DateFormat"]();
+        this.BASEURI = "https://watermasterapi.azurewebsites.net/api/user/usergeo/";
+        this.userid = Number(document.cookie.toString().substr(7, document.cookie.toString().length));
         this.calcTotal();
     }
     Consumption.prototype.numFormat = function (num) {
@@ -2109,22 +2114,29 @@ var Consumption = /** @class */ (function () {
     };
     Consumption.prototype.doConsumption = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var numberOfWaterings;
+            var currentPeriod, y, m, firstDay, lastDay, numberOfWaterings;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
+                        currentPeriod = new Date(), y = currentPeriod.getFullYear(), m = currentPeriod.getMonth();
+                        firstDay = new Date(y, m, 1 + 1);
+                        lastDay = new Date(y, m + 1, 0 + 1);
+                        this.TimePeriodElement.innerText = "Fra: " + this.dateFormatter.formatShortDate(firstDay) +
+                            ". Til: " + this.dateFormatter.formatShortDate(lastDay);
                         numberOfWaterings = 0;
-                        return [4 /*yield*/, axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(this.BASEURI)
+                        return [4 /*yield*/, axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(this.BASEURI + this.userid.toString())
                                 .then(function (response) {
-                                numberOfWaterings = response.data.waterCount;
+                                numberOfWaterings = response.data.lat;
                             })];
                     case 1:
                         _a.sent();
-                        this.WateringNums = numberOfWaterings;
+                        if (numberOfWaterings != null) {
+                            this.WateringNums = numberOfWaterings;
+                        }
                         this.calcTotal();
                         this.WaterAmountCell.innerText = this.numFormat(this.WaterAmount);
-                        this.WateringNumsCell.innerText = this.numFormat(this.WateringNums);
                         this.WaterPriceCell.innerText = this.numFormat(this.WaterPrice);
+                        this.WateringNumsCell.innerText = this.numFormat(this.WateringNums);
                         this.TotalCell.innerText = this.numFormat(this.Total);
                         return [2 /*return*/];
                 }
@@ -2157,6 +2169,13 @@ var DateFormat = /** @class */ (function () {
         //getMounth() - method is 0 indexed, that is why we add + 1
         var formattedDate = d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear() + " " +
             d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
+        return formattedDate.toString();
+    };
+    DateFormat.prototype.formatShortDate = function (date) {
+        var d = new Date(date);
+        this.doTimezone(d);
+        //getMounth() - method is 0 indexed, that is why we add + 1
+        var formattedDate = d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear();
         return formattedDate.toString();
     };
     DateFormat.prototype.doTimezone = function (date) {
