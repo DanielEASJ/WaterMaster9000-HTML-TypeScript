@@ -2046,7 +2046,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Config", function() { return Config; });
 var Config = /** @class */ (function () {
     function Config() {
-        this.BASEURI = "https://watermasterapi.azurewebsites.net/api/";
+        this.BASEURI = "https://mmo-watermasterapi.azurewebsites.net/api/";
     }
     return Config;
 }());
