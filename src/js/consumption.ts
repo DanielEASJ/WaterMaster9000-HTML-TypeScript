@@ -7,16 +7,20 @@ export class Consumption
     private WaterPrice: number = 15.99; // This value should be entered by the user of the system.
     private WateringNums: number = 0.00;
     private Total: number = 0.00;
+    private LatestWateringDate: Date = null;
 
     private WaterAmountCell = document.getElementById("consumptionWaterAmount") as HTMLTableCellElement;
     private WaterPriceCell = document.getElementById("consumptionWaterPrice") as HTMLTableCellElement;
     private WateringNumsCell = document.getElementById("consumptionWateringNums") as HTMLTableCellElement;
     private TotalCell = document.getElementById("consumptionTotal") as HTMLTableCellElement;
-    private TimePeriodElement = document.getElementById("consumptionTimePeriod") as HTMLElement;
+    private TimeFromElement = document.getElementById("consumptionTimeFrom") as HTMLParagraphElement;
+    private TimeToElement = document.getElementById("consumptionTimeTo") as HTMLParagraphElement;
+    private LatestWatering = document.getElementById("consumptionLatestWatering") as HTMLTableCellElement;
     
     private dateFormatter: DateFormat = new DateFormat();
 
-    private BASEURI: string = "https://watermasterapi.azurewebsites.net/api/user/usergeo/";
+    //private BASEURI: string = "https://watermasterapi.azurewebsites.net/api/user/usergeo/";
+    private BASEURI: string = "http://localhost:51514/api/user/usergeo/";
     private userid = Number(document.cookie.toString().substr(7, document.cookie.toString().length));
 
     constructor()
@@ -46,15 +50,17 @@ export class Consumption
         let firstDay = new Date(y, m, 1 + 1);
         let lastDay = new Date(y, m + 1, 0 + 1);
 
-        this.TimePeriodElement.innerText = "Fra: " + this.dateFormatter.formatShortDate(firstDay) +
-                                            ". Til: " + this.dateFormatter.formatShortDate(lastDay);
+        this.TimeFromElement.innerText = "Fra: " + this.dateFormatter.formatShortDate(firstDay);
+        this.TimeToElement.innerText = "Til: " + this.dateFormatter.formatShortDate(lastDay);
 
         let numberOfWaterings: number = 0;
+        let dateOfWatering: Date = null;
 
         await axios.get(this.BASEURI + this.userid.toString())
         .then(function(response)
         {
-            numberOfWaterings = response.data.lat;
+            numberOfWaterings = response.data.waterCount;
+            dateOfWatering = response.data.lastWater;
         });
 
         // If no object is returned from the call, don't override the watering number of 0.
@@ -63,11 +69,17 @@ export class Consumption
             this.WateringNums = numberOfWaterings;
         }
 
+        if (dateOfWatering != null)
+        {
+            this.LatestWateringDate = dateOfWatering;
+        }
+
         this.calcTotal();
 
         this.WaterAmountCell.innerText = this.numFormat(this.WaterAmount, 3);
         this.WaterPriceCell.innerText = this.numFormat(this.WaterPrice, 2);
         this.WateringNumsCell.innerText = this.numFormat(this.WateringNums, 2);
         this.TotalCell.innerText = this.numFormat(this.Total, 2);
+        this.LatestWatering.innerText = this.dateFormatter.formatDate(this.LatestWateringDate);
     }
 }

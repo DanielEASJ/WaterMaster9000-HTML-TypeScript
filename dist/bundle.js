@@ -2090,13 +2090,17 @@ var Consumption = /** @class */ (function () {
         this.WaterPrice = 15.99; // This value should be entered by the user of the system.
         this.WateringNums = 0.00;
         this.Total = 0.00;
+        this.LatestWateringDate = null;
         this.WaterAmountCell = document.getElementById("consumptionWaterAmount");
         this.WaterPriceCell = document.getElementById("consumptionWaterPrice");
         this.WateringNumsCell = document.getElementById("consumptionWateringNums");
         this.TotalCell = document.getElementById("consumptionTotal");
-        this.TimePeriodElement = document.getElementById("consumptionTimePeriod");
+        this.TimeFromElement = document.getElementById("consumptionTimeFrom");
+        this.TimeToElement = document.getElementById("consumptionTimeTo");
+        this.LatestWatering = document.getElementById("consumptionLatestWatering");
         this.dateFormatter = new _dateFormat__WEBPACK_IMPORTED_MODULE_1__["DateFormat"]();
-        this.BASEURI = "https://watermasterapi.azurewebsites.net/api/user/usergeo/";
+        //private BASEURI: string = "https://watermasterapi.azurewebsites.net/api/user/usergeo/";
+        this.BASEURI = "http://localhost:51514/api/user/usergeo/";
         this.userid = Number(document.cookie.toString().substr(7, document.cookie.toString().length));
         this.calcTotal();
     }
@@ -2114,19 +2118,21 @@ var Consumption = /** @class */ (function () {
     };
     Consumption.prototype.doConsumption = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var currentPeriod, y, m, firstDay, lastDay, numberOfWaterings;
+            var currentPeriod, y, m, firstDay, lastDay, numberOfWaterings, dateOfWatering;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         currentPeriod = new Date(), y = currentPeriod.getFullYear(), m = currentPeriod.getMonth();
                         firstDay = new Date(y, m, 1 + 1);
                         lastDay = new Date(y, m + 1, 0 + 1);
-                        this.TimePeriodElement.innerText = "Fra: " + this.dateFormatter.formatShortDate(firstDay) +
-                            ". Til: " + this.dateFormatter.formatShortDate(lastDay);
+                        this.TimeFromElement.innerText = "Fra: " + this.dateFormatter.formatShortDate(firstDay);
+                        this.TimeToElement.innerText = "Til: " + this.dateFormatter.formatShortDate(lastDay);
                         numberOfWaterings = 0;
+                        dateOfWatering = null;
                         return [4 /*yield*/, axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(this.BASEURI + this.userid.toString())
                                 .then(function (response) {
-                                numberOfWaterings = response.data.lat;
+                                numberOfWaterings = response.data.waterCount;
+                                dateOfWatering = response.data.lastWater;
                             })];
                     case 1:
                         _a.sent();
@@ -2134,11 +2140,15 @@ var Consumption = /** @class */ (function () {
                         if (numberOfWaterings != null) {
                             this.WateringNums = numberOfWaterings;
                         }
+                        if (dateOfWatering != null) {
+                            this.LatestWateringDate = dateOfWatering;
+                        }
                         this.calcTotal();
                         this.WaterAmountCell.innerText = this.numFormat(this.WaterAmount, 3);
                         this.WaterPriceCell.innerText = this.numFormat(this.WaterPrice, 2);
                         this.WateringNumsCell.innerText = this.numFormat(this.WateringNums, 2);
                         this.TotalCell.innerText = this.numFormat(this.Total, 2);
+                        this.LatestWatering.innerText = this.dateFormatter.formatDate(this.LatestWateringDate);
                         return [2 /*return*/];
                 }
             });
