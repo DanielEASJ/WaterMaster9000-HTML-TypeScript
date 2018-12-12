@@ -13,8 +13,8 @@ export class Consumption
     private WaterPriceCell = document.getElementById("consumptionWaterPrice") as HTMLTableCellElement;
     private WateringNumsCell = document.getElementById("consumptionWateringNums") as HTMLTableCellElement;
     private TotalCell = document.getElementById("consumptionTotal") as HTMLTableCellElement;
-    private TimeFromElement = document.getElementById("consumptionTimeFrom") as HTMLParagraphElement;
-    private TimeToElement = document.getElementById("consumptionTimeTo") as HTMLParagraphElement;
+    private TimeFromElement = document.getElementById("consumptionTimeFrom") as HTMLTableCellElement;
+    private TimeToElement = document.getElementById("consumptionTimeTo") as HTMLTableCellElement;
     private LatestWatering = document.getElementById("consumptionLatestWatering") as HTMLTableCellElement;
     
     private dateFormatter: DateFormat = new DateFormat();
@@ -49,8 +49,8 @@ export class Consumption
         let firstDay = new Date(y, m, 1 + 1);
         let lastDay = new Date(y, m + 1, 0 + 1);
 
-        this.TimeFromElement.innerText = "Fra: " + this.dateFormatter.formatShortDate(firstDay);
-        this.TimeToElement.innerText = "Til: " + this.dateFormatter.formatShortDate(lastDay);
+        this.TimeFromElement.innerText = this.dateFormatter.formatShortDate(firstDay);
+        this.TimeToElement.innerText = this.dateFormatter.formatShortDate(lastDay);
 
         let numberOfWaterings: number = 0;
         let dateOfWatering: Date = null;

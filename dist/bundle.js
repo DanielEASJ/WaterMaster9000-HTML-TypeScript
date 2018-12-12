@@ -2124,8 +2124,8 @@ var Consumption = /** @class */ (function () {
                         currentPeriod = new Date(), y = currentPeriod.getFullYear(), m = currentPeriod.getMonth();
                         firstDay = new Date(y, m, 1 + 1);
                         lastDay = new Date(y, m + 1, 0 + 1);
-                        this.TimeFromElement.innerText = "Fra: " + this.dateFormatter.formatShortDate(firstDay);
-                        this.TimeToElement.innerText = "Til: " + this.dateFormatter.formatShortDate(lastDay);
+                        this.TimeFromElement.innerText = this.dateFormatter.formatShortDate(firstDay);
+                        this.TimeToElement.innerText = this.dateFormatter.formatShortDate(lastDay);
                         numberOfWaterings = 0;
                         dateOfWatering = null;
                         return [4 /*yield*/, axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(this.BASEURI + this.userid.toString())
