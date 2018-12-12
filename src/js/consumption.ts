@@ -19,8 +19,7 @@ export class Consumption
     
     private dateFormatter: DateFormat = new DateFormat();
 
-    //private BASEURI: string = "https://watermasterapi.azurewebsites.net/api/user/usergeo/";
-    private BASEURI: string = "http://localhost:51514/api/user/usergeo/";
+    private BASEURI: string = "https://watermasterapi.azurewebsites.net/api/user/usergeo/";
     private userid = Number(document.cookie.toString().substr(7, document.cookie.toString().length));
 
     constructor()

@@ -2099,8 +2099,7 @@ var Consumption = /** @class */ (function () {
         this.TimeToElement = document.getElementById("consumptionTimeTo");
         this.LatestWatering = document.getElementById("consumptionLatestWatering");
         this.dateFormatter = new _dateFormat__WEBPACK_IMPORTED_MODULE_1__["DateFormat"]();
-        //private BASEURI: string = "https://watermasterapi.azurewebsites.net/api/user/usergeo/";
-        this.BASEURI = "http://localhost:51514/api/user/usergeo/";
+        this.BASEURI = "https://watermasterapi.azurewebsites.net/api/user/usergeo/";
         this.userid = Number(document.cookie.toString().substr(7, document.cookie.toString().length));
         this.calcTotal();
     }
