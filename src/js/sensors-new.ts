@@ -3,6 +3,8 @@ import { Alert } from './alert';
 
 export class NewSensor
 {
+    private userid: string = document.cookie.toString().substr(7, document.cookie.toString().length);
+
     constructor()
     {
         let btn = document.getElementById("newSensorBtn") as HTMLButtonElement;
@@ -16,8 +18,6 @@ export class NewSensor
         let inputName = document.getElementById("newName") as HTMLInputElement;
         let inputLL = document.getElementById("newLowerLimit") as HTMLInputElement;
         let inputUL = document.getElementById("newUpperLimit") as HTMLInputElement;
-        let inputUID = document.getElementById("newUserId") as HTMLInputElement;
-        inputUID.value = document.cookie.toString().substr(7, document.cookie.toString().length);
 
         let validation: boolean = true;
 
@@ -90,7 +90,7 @@ export class NewSensor
                 name: inputName.value,
                 limitUp: inputUL.value,
                 limitLow: inputLL.value,
-                fK_UserId: inputUID.value,
+                fK_UserId: this.userid,
                 data: null
             })
             .then(function(response)
