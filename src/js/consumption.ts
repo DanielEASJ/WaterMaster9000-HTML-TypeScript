@@ -3,8 +3,8 @@ import { DateFormat } from './dateFormat';
 
 export class Consumption
 {
-    private WaterAmount: number = 0.5;
-    private WaterPrice: number = 15.99;
+    private WaterAmount: number = 0.005; // This value was decided by the team.
+    private WaterPrice: number = 15.99; // This value should be entered by the user of the system.
     private WateringNums: number = 0.00;
     private Total: number = 0.00;
 
@@ -24,10 +24,10 @@ export class Consumption
         this.calcTotal();
     }
     
-    numFormat(num: number): string
+    numFormat(num: number, decimals: number): string
     {
         return (num
-            .toFixed(2) // Set the number of desired decimals.
+            .toFixed(decimals) // Set the number of desired decimals.
             .replace('.', ',')  // Replace all points with commas.
             .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') // Then put a point for every thousand in the number.
         )
@@ -57,6 +57,7 @@ export class Consumption
             numberOfWaterings = response.data.lat;
         });
 
+        // If no object is returned from the call, don't override the watering number of 0.
         if (numberOfWaterings != null)
         {
             this.WateringNums = numberOfWaterings;
@@ -64,9 +65,9 @@ export class Consumption
 
         this.calcTotal();
 
-        this.WaterAmountCell.innerText = this.numFormat(this.WaterAmount);
-        this.WaterPriceCell.innerText = this.numFormat(this.WaterPrice);
-        this.WateringNumsCell.innerText = this.numFormat(this.WateringNums);
-        this.TotalCell.innerText = this.numFormat(this.Total);
+        this.WaterAmountCell.innerText = this.numFormat(this.WaterAmount, 3);
+        this.WaterPriceCell.innerText = this.numFormat(this.WaterPrice, 2);
+        this.WateringNumsCell.innerText = this.numFormat(this.WateringNums, 2);
+        this.TotalCell.innerText = this.numFormat(this.Total, 2);
     }
 }

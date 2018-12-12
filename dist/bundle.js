@@ -2086,8 +2086,8 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 var Consumption = /** @class */ (function () {
     function Consumption() {
-        this.WaterAmount = 0.5;
-        this.WaterPrice = 15.99;
+        this.WaterAmount = 0.005; // This value was decided by the team.
+        this.WaterPrice = 15.99; // This value should be entered by the user of the system.
         this.WateringNums = 0.00;
         this.Total = 0.00;
         this.WaterAmountCell = document.getElementById("consumptionWaterAmount");
@@ -2100,9 +2100,9 @@ var Consumption = /** @class */ (function () {
         this.userid = Number(document.cookie.toString().substr(7, document.cookie.toString().length));
         this.calcTotal();
     }
-    Consumption.prototype.numFormat = function (num) {
+    Consumption.prototype.numFormat = function (num, decimals) {
         return (num
-            .toFixed(2) // Set the number of desired decimals.
+            .toFixed(decimals) // Set the number of desired decimals.
             .replace('.', ',') // Replace all points with commas.
             .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.') // Then put a point for every thousand in the number.
         );
@@ -2130,14 +2130,15 @@ var Consumption = /** @class */ (function () {
                             })];
                     case 1:
                         _a.sent();
+                        // If no object is returned from the call, don't override the watering number of 0.
                         if (numberOfWaterings != null) {
                             this.WateringNums = numberOfWaterings;
                         }
                         this.calcTotal();
-                        this.WaterAmountCell.innerText = this.numFormat(this.WaterAmount);
-                        this.WaterPriceCell.innerText = this.numFormat(this.WaterPrice);
-                        this.WateringNumsCell.innerText = this.numFormat(this.WateringNums);
-                        this.TotalCell.innerText = this.numFormat(this.Total);
+                        this.WaterAmountCell.innerText = this.numFormat(this.WaterAmount, 3);
+                        this.WaterPriceCell.innerText = this.numFormat(this.WaterPrice, 2);
+                        this.WateringNumsCell.innerText = this.numFormat(this.WateringNums, 2);
+                        this.TotalCell.innerText = this.numFormat(this.Total, 2);
                         return [2 /*return*/];
                 }
             });
@@ -2359,6 +2360,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var NewSensor = /** @class */ (function () {
     function NewSensor() {
+        this.userid = document.cookie.toString().substr(7, document.cookie.toString().length);
         var btn = document.getElementById("newSensorBtn");
         btn.addEventListener("click", this.PostNewSensor);
     }
@@ -2368,8 +2370,6 @@ var NewSensor = /** @class */ (function () {
         var inputName = document.getElementById("newName");
         var inputLL = document.getElementById("newLowerLimit");
         var inputUL = document.getElementById("newUpperLimit");
-        var inputUID = document.getElementById("newUserId");
-        inputUID.value = document.cookie.toString().substr(7, document.cookie.toString().length);
         var validation = true;
         var content = document.getElementById("alerts");
         // Clear the alerts division, before appending new alerts, to avoid endless duplicates.
@@ -2420,7 +2420,7 @@ var NewSensor = /** @class */ (function () {
                 name: inputName.value,
                 limitUp: inputUL.value,
                 limitLow: inputLL.value,
-                fK_UserId: inputUID.value,
+                fK_UserId: this.userid,
                 data: null
             })
                 .then(function (response) {
@@ -2574,20 +2574,20 @@ var Sensors = /** @class */ (function () {
         statusIcon.setAttribute("data-placement", "left");
         if (sensor.data != null) {
             if (this.dateFormatter.timeDifference(sensor.data.date) < 10) {
-                statusIcon.setAttribute("class", "fas fa-check text-success float-right");
+                statusIcon.setAttribute("class", "fas fa-check float-right");
                 statusIcon.setAttribute("title", "Sensoren fungerer som den skal.");
             }
             else if (this.dateFormatter.timeDifference(sensor.data.date) > 10 && this.dateFormatter.timeDifference(sensor.data.date) < 20) {
-                statusIcon.setAttribute("class", "fas fa-exclamation text-warning float-right");
+                statusIcon.setAttribute("class", "fas fa-exclamation float-right");
                 statusIcon.setAttribute("title", "Sensoren har sprunget den seneste måling over!");
             }
             else {
-                statusIcon.setAttribute("class", "fas fa-skull-crossbones text-danger float-right");
+                statusIcon.setAttribute("class", "fas fa-skull-crossbones float-right");
                 statusIcon.setAttribute("title", "Sensoren måler ikke længere..!");
             }
         }
         else {
-            statusIcon.setAttribute("class", "fas fa-exclamation text-warning float-right");
+            statusIcon.setAttribute("class", "fas fa-exclamation float-right");
             statusIcon.setAttribute("title", "Sensoren har ikke foretaget sin første måling endnu.");
         }
         var mb0 = document.createElement("h5");
