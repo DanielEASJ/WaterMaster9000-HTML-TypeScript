@@ -1,6 +1,7 @@
 import axios, { AxiosPromise } from 'axios';
+import { Config } from './config';
 
-export class Login
+export class Login extends Config
 {
     private status: boolean = false;
     private curpath: string = window.location.pathname;
@@ -8,6 +9,7 @@ export class Login
 
     constructor()
     {
+        super();
         if (this.curpage == "login.htm")
         {
             let btn = document.getElementById("btnLogin") as HTMLButtonElement;
@@ -19,13 +21,12 @@ export class Login
     {
         if (() => this.IsLoggedIn() == false)
         {
-            let BASEURI: string = "https://watermasterapi.azurewebsites.net/api/user/login/";
             let username = document.getElementById("username") as HTMLInputElement;
             let password = document.getElementById("password") as HTMLInputElement;
 
             let tempReponse: number = 0;
 
-            await axios.get(BASEURI + username.value + "&&" + password.value)
+            await axios.get(this.BASEURI + "user/login/" + username.value + "&&" + password.value)
             .then(function(response)
             {
                 tempReponse = Number(response.data);

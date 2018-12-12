@@ -1,4 +1,4 @@
-interface Config
+export class Config
 {
-    readonly domain: string;
+    readonly BASEURI: string = "https://watermasterapi.azurewebsites.net/api/";
 }

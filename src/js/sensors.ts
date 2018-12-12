@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { Tables } from './tables';
 import { DateFormat } from './dateFormat';
+import { Config } from './config';
 
 // represents Raspberry Pi's
 interface Sensor
@@ -22,10 +23,9 @@ interface SensorData
     fK_MacAddress: string
 }
 
-export class Sensors
+export class Sensors extends Config
 {
     private userid: number = 1;
-    private BASEURI: string = "https://watermasterapi.azurewebsites.net/api/sensor/";
     private sensorID: number = 1;
     private dateFormatter: DateFormat = new DateFormat();
     
@@ -34,6 +34,7 @@ export class Sensors
 
     constructor()
     {
+        super();
         this.accordion.setAttribute("class", "accordion");
         this.accordion.setAttribute("id", "accordion");
     }
@@ -50,7 +51,7 @@ export class Sensors
 
         this.userid = Number(document.cookie.toString().substr(7, document.cookie.toString().length));
 
-        await axios.get(this.BASEURI + "userid/" + this.userid)
+        await axios.get(this.BASEURI + "sensor/userid/" + this.userid)
         .then(function(response)
         {
             userSensors = response.data;
@@ -60,7 +61,7 @@ export class Sensors
 
             let sensor: Sensor;
 
-            await axios.get(this.BASEURI + "mac/" + userSensors[index])
+            await axios.get(this.BASEURI + "sensor/mac/" + userSensors[index])
             .then(function(response)
             {
                 console.log(response.data);
@@ -84,6 +85,7 @@ export class Sensors
 
     SetUpHTML(sensor: any): void
     {
+        let BASEURI = this.BASEURI;
         let id: number = this.sensorID;
 
         // case
@@ -199,12 +201,12 @@ export class Sensors
         updBtn.setAttribute("class", "btn btn-lg btn-primary");
         updBtn.innerText = "Gem Data";
         updBtn.onclick = function() {
-            
+            console.log();
             let nameInput = document.getElementById("rowNameInput" + id.toString()) as HTMLInputElement;
             let lowerLimitInput = document.getElementById("rowLowerInput" + id.toString()) as HTMLInputElement;
             let upperLimitInput = document.getElementById("rowUpperInput" + id.toString()) as HTMLInputElement;
 
-            axios.put("https://watermasterapi.azurewebsites.net/api/sensor/", {
+            axios.put(BASEURI + "sensor/", {
                 macAddress: sensor.macAddress,
                 name: nameInput.value,
                 limitUp: Number(upperLimitInput.value),

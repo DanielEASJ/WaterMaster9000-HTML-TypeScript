@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { DateFormat } from './dateFormat';
+import { Config } from './config';
 
-export class Consumption
+export class Consumption extends Config
 {
     private WaterAmount: number = 0.005; // This value was decided by the team.
     private WaterPrice: number = 15.99; // This value should be entered by the user of the system.
@@ -19,11 +20,11 @@ export class Consumption
     
     private dateFormatter: DateFormat = new DateFormat();
 
-    private BASEURI: string = "https://watermasterapi.azurewebsites.net/api/user/usergeo/";
     private userid = Number(document.cookie.toString().substr(7, document.cookie.toString().length));
 
     constructor()
     {
+        super();
         this.calcTotal();
     }
     
@@ -55,7 +56,7 @@ export class Consumption
         let numberOfWaterings: number = 0;
         let dateOfWatering: Date = null;
 
-        await axios.get(this.BASEURI + this.userid.toString())
+        await axios.get(this.BASEURI + "user/usergeo/" + this.userid.toString())
         .then(function(response)
         {
             numberOfWaterings = response.data.waterCount;

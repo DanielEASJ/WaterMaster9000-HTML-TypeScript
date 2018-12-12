@@ -2034,6 +2034,27 @@ var Alert = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/js/config.ts":
+/*!**************************!*\
+  !*** ./src/js/config.ts ***!
+  \**************************/
+/*! exports provided: Config */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Config", function() { return Config; });
+var Config = /** @class */ (function () {
+    function Config() {
+        this.BASEURI = "https://watermasterapi.azurewebsites.net/api/";
+    }
+    return Config;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/js/consumption.ts":
 /*!*******************************!*\
   !*** ./src/js/consumption.ts ***!
@@ -2047,6 +2068,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _dateFormat__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./dateFormat */ "./src/js/dateFormat.ts");
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./config */ "./src/js/config.ts");
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -2084,24 +2119,27 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 };
 
 
-var Consumption = /** @class */ (function () {
+
+var Consumption = /** @class */ (function (_super) {
+    __extends(Consumption, _super);
     function Consumption() {
-        this.WaterAmount = 0.005; // This value was decided by the team.
-        this.WaterPrice = 15.99; // This value should be entered by the user of the system.
-        this.WateringNums = 0.00;
-        this.Total = 0.00;
-        this.LatestWateringDate = null;
-        this.WaterAmountCell = document.getElementById("consumptionWaterAmount");
-        this.WaterPriceCell = document.getElementById("consumptionWaterPrice");
-        this.WateringNumsCell = document.getElementById("consumptionWateringNums");
-        this.TotalCell = document.getElementById("consumptionTotal");
-        this.TimeFromElement = document.getElementById("consumptionTimeFrom");
-        this.TimeToElement = document.getElementById("consumptionTimeTo");
-        this.LatestWatering = document.getElementById("consumptionLatestWatering");
-        this.dateFormatter = new _dateFormat__WEBPACK_IMPORTED_MODULE_1__["DateFormat"]();
-        this.BASEURI = "https://watermasterapi.azurewebsites.net/api/user/usergeo/";
-        this.userid = Number(document.cookie.toString().substr(7, document.cookie.toString().length));
-        this.calcTotal();
+        var _this = _super.call(this) || this;
+        _this.WaterAmount = 0.005; // This value was decided by the team.
+        _this.WaterPrice = 15.99; // This value should be entered by the user of the system.
+        _this.WateringNums = 0.00;
+        _this.Total = 0.00;
+        _this.LatestWateringDate = null;
+        _this.WaterAmountCell = document.getElementById("consumptionWaterAmount");
+        _this.WaterPriceCell = document.getElementById("consumptionWaterPrice");
+        _this.WateringNumsCell = document.getElementById("consumptionWateringNums");
+        _this.TotalCell = document.getElementById("consumptionTotal");
+        _this.TimeFromElement = document.getElementById("consumptionTimeFrom");
+        _this.TimeToElement = document.getElementById("consumptionTimeTo");
+        _this.LatestWatering = document.getElementById("consumptionLatestWatering");
+        _this.dateFormatter = new _dateFormat__WEBPACK_IMPORTED_MODULE_1__["DateFormat"]();
+        _this.userid = Number(document.cookie.toString().substr(7, document.cookie.toString().length));
+        _this.calcTotal();
+        return _this;
     }
     Consumption.prototype.numFormat = function (num, decimals) {
         return (num
@@ -2128,7 +2166,7 @@ var Consumption = /** @class */ (function () {
                         this.TimeToElement.innerText = this.dateFormatter.formatShortDate(lastDay);
                         numberOfWaterings = 0;
                         dateOfWatering = null;
-                        return [4 /*yield*/, axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(this.BASEURI + this.userid.toString())
+                        return [4 /*yield*/, axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(this.BASEURI + "user/usergeo/" + this.userid.toString())
                                 .then(function (response) {
                                 numberOfWaterings = response.data.waterCount;
                                 dateOfWatering = response.data.lastWater;
@@ -2154,7 +2192,7 @@ var Consumption = /** @class */ (function () {
         });
     };
     return Consumption;
-}());
+}(_config__WEBPACK_IMPORTED_MODULE_2__["Config"]));
 
 
 
@@ -2258,6 +2296,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Login", function() { return Login; });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./config */ "./src/js/config.ts");
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -2294,29 +2346,32 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
     }
 };
 
-var Login = /** @class */ (function () {
+
+var Login = /** @class */ (function (_super) {
+    __extends(Login, _super);
     function Login() {
-        this.status = false;
-        this.curpath = window.location.pathname;
-        this.curpage = this.curpath.substring(this.curpath.lastIndexOf('/') + 1);
-        if (this.curpage == "login.htm") {
+        var _this = _super.call(this) || this;
+        _this.status = false;
+        _this.curpath = window.location.pathname;
+        _this.curpage = _this.curpath.substring(_this.curpath.lastIndexOf('/') + 1);
+        if (_this.curpage == "login.htm") {
             var btn = document.getElementById("btnLogin");
-            btn.addEventListener("click", this.Login);
+            btn.addEventListener("click", _this.Login);
         }
+        return _this;
     }
     Login.prototype.Login = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var BASEURI, username, password, tempReponse_1;
+            var username, password, tempReponse_1;
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         if (!function () { return _this.IsLoggedIn() == false; }) return [3 /*break*/, 2];
-                        BASEURI = "https://watermasterapi.azurewebsites.net/api/user/login/";
                         username = document.getElementById("username");
                         password = document.getElementById("password");
                         tempReponse_1 = 0;
-                        return [4 /*yield*/, axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(BASEURI + username.value + "&&" + password.value)
+                        return [4 /*yield*/, axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(this.BASEURI + "user/login/" + username.value + "&&" + password.value)
                                 .then(function (response) {
                                 tempReponse_1 = Number(response.data);
                             })];
@@ -2346,7 +2401,7 @@ var Login = /** @class */ (function () {
         return this.status;
     };
     return Login;
-}());
+}(_config__WEBPACK_IMPORTED_MODULE_1__["Config"]));
 
 
 
@@ -2365,16 +2420,33 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _alert__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./alert */ "./src/js/alert.ts");
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./config */ "./src/js/config.ts");
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 
 
-var NewSensor = /** @class */ (function () {
+
+var NewSensor = /** @class */ (function (_super) {
+    __extends(NewSensor, _super);
     function NewSensor() {
-        this.userid = document.cookie.toString().substr(7, document.cookie.toString().length);
+        var _this = _super.call(this) || this;
+        _this.userid = document.cookie.toString().substr(7, document.cookie.toString().length);
         var btn = document.getElementById("newSensorBtn");
-        btn.addEventListener("click", this.PostNewSensor);
+        btn.addEventListener("click", _this.PostNewSensor);
+        return _this;
     }
     NewSensor.prototype.PostNewSensor = function () {
-        var BASEURI = "https://watermasterapi.azurewebsites.net/api/sensor/";
         var inputMA = document.getElementById("newMacAddress");
         var inputName = document.getElementById("newName");
         var inputLL = document.getElementById("newLowerLimit");
@@ -2424,7 +2496,7 @@ var NewSensor = /** @class */ (function () {
             content.appendChild(new _alert__WEBPACK_IMPORTED_MODULE_1__["Alert"]("Den \"Øvre fugtigheds-grænse\" må IKKE være mindre end den nedre fugtigheds-grænse!").MakeAlert());
         }
         if (validation == true) {
-            axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(BASEURI, {
+            axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(this.BASEURI + "sensor/", {
                 macAddress: inputMA.value,
                 name: inputName.value,
                 limitUp: inputUL.value,
@@ -2440,7 +2512,7 @@ var NewSensor = /** @class */ (function () {
         }
     };
     return NewSensor;
-}());
+}(_config__WEBPACK_IMPORTED_MODULE_2__["Config"]));
 
 
 
@@ -2460,6 +2532,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _tables__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tables */ "./src/js/tables.ts");
 /* harmony import */ var _dateFormat__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./dateFormat */ "./src/js/dateFormat.ts");
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./config */ "./src/js/config.ts");
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -2498,16 +2584,19 @@ var __generator = (undefined && undefined.__generator) || function (thisArg, bod
 
 
 
-var Sensors = /** @class */ (function () {
+
+var Sensors = /** @class */ (function (_super) {
+    __extends(Sensors, _super);
     function Sensors() {
-        this.userid = 1;
-        this.BASEURI = "https://watermasterapi.azurewebsites.net/api/sensor/";
-        this.sensorID = 1;
-        this.dateFormatter = new _dateFormat__WEBPACK_IMPORTED_MODULE_2__["DateFormat"]();
-        this.mainDiv = document.getElementById("content");
-        this.accordion = document.createElement("div");
-        this.accordion.setAttribute("class", "accordion");
-        this.accordion.setAttribute("id", "accordion");
+        var _this = _super.call(this) || this;
+        _this.userid = 1;
+        _this.sensorID = 1;
+        _this.dateFormatter = new _dateFormat__WEBPACK_IMPORTED_MODULE_2__["DateFormat"]();
+        _this.mainDiv = document.getElementById("content");
+        _this.accordion = document.createElement("div");
+        _this.accordion.setAttribute("class", "accordion");
+        _this.accordion.setAttribute("id", "accordion");
+        return _this;
     }
     Sensors.prototype.GetByUser = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -2521,7 +2610,7 @@ var Sensors = /** @class */ (function () {
                         percentage = 0;
                         tempSensorList = new Array();
                         this.userid = Number(document.cookie.toString().substr(7, document.cookie.toString().length));
-                        return [4 /*yield*/, axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(this.BASEURI + "userid/" + this.userid)
+                        return [4 /*yield*/, axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(this.BASEURI + "sensor/userid/" + this.userid)
                                 .then(function (response) {
                                 userSensors = response.data;
                             })];
@@ -2531,7 +2620,7 @@ var Sensors = /** @class */ (function () {
                             var sensor;
                             return __generator(this, function (_a) {
                                 switch (_a.label) {
-                                    case 0: return [4 /*yield*/, axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(this_1.BASEURI + "mac/" + userSensors[index])
+                                    case 0: return [4 /*yield*/, axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(this_1.BASEURI + "sensor/mac/" + userSensors[index])
                                             .then(function (response) {
                                             console.log(response.data);
                                             percentage = ((index + 2) / userSensors.length) * 100;
@@ -2570,6 +2659,7 @@ var Sensors = /** @class */ (function () {
         });
     };
     Sensors.prototype.SetUpHTML = function (sensor) {
+        var BASEURI = this.BASEURI;
         var id = this.sensorID;
         // case
         var card = document.createElement("div");
@@ -2659,10 +2749,11 @@ var Sensors = /** @class */ (function () {
         updBtn.setAttribute("class", "btn btn-lg btn-primary");
         updBtn.innerText = "Gem Data";
         updBtn.onclick = function () {
+            console.log();
             var nameInput = document.getElementById("rowNameInput" + id.toString());
             var lowerLimitInput = document.getElementById("rowLowerInput" + id.toString());
             var upperLimitInput = document.getElementById("rowUpperInput" + id.toString());
-            axios__WEBPACK_IMPORTED_MODULE_0___default.a.put("https://watermasterapi.azurewebsites.net/api/sensor/", {
+            axios__WEBPACK_IMPORTED_MODULE_0___default.a.put(BASEURI + "sensor/", {
                 macAddress: sensor.macAddress,
                 name: nameInput.value,
                 limitUp: Number(upperLimitInput.value),
@@ -2680,7 +2771,7 @@ var Sensors = /** @class */ (function () {
         };
     };
     return Sensors;
-}());
+}(_config__WEBPACK_IMPORTED_MODULE_3__["Config"]));
 
 
 

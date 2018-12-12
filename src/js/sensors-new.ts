@@ -1,19 +1,20 @@
 import axios from 'axios';
 import { Alert } from './alert';
+import { Config } from './config';
 
-export class NewSensor
+export class NewSensor extends Config
 {
     private userid: string = document.cookie.toString().substr(7, document.cookie.toString().length);
 
     constructor()
     {
+        super();
         let btn = document.getElementById("newSensorBtn") as HTMLButtonElement;
         btn.addEventListener("click", this.PostNewSensor);
     }
 
     PostNewSensor()
     {
-        let BASEURI: string = "https://watermasterapi.azurewebsites.net/api/sensor/";
         let inputMA = document.getElementById("newMacAddress") as HTMLInputElement;
         let inputName = document.getElementById("newName") as HTMLInputElement;
         let inputLL = document.getElementById("newLowerLimit") as HTMLInputElement;
@@ -84,7 +85,7 @@ export class NewSensor
 
         if (validation == true)
         {
-            axios.post(BASEURI,
+            axios.post(this.BASEURI + "sensor/",
             {
                 macAddress: inputMA.value,
                 name: inputName.value,
