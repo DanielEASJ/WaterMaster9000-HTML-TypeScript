@@ -2125,11 +2125,13 @@ var Consumption = /** @class */ (function (_super) {
     function Consumption() {
         var _this = _super.call(this) || this;
         _this.WaterAmount = 0.005; // This value was decided by the team.
+        _this.WaterUsed = 0.00;
         _this.WaterPrice = 15.99; // This value should be entered by the user of the system.
         _this.WateringNums = 0.00;
         _this.Total = 0.00;
         _this.LatestWateringDate = null;
         _this.WaterAmountCell = document.getElementById("consumptionWaterAmount");
+        _this.WaterUsedCell = document.getElementById("consumptionWaterUsed");
         _this.WaterPriceCell = document.getElementById("consumptionWaterPrice");
         _this.WateringNumsCell = document.getElementById("consumptionWateringNums");
         _this.TotalCell = document.getElementById("consumptionTotal");
@@ -2182,6 +2184,7 @@ var Consumption = /** @class */ (function (_super) {
                         }
                         this.calcTotal();
                         this.WaterAmountCell.innerText = this.numFormat(this.WaterAmount, 3);
+                        this.WaterUsedCell.innerText = this.numFormat((this.WaterAmount * this.WateringNums), 3);
                         this.WaterPriceCell.innerText = this.numFormat(this.WaterPrice, 2);
                         this.WateringNumsCell.innerText = this.numFormat(this.WateringNums, 2);
                         this.TotalCell.innerText = this.numFormat(this.Total, 2);
