@@ -2371,6 +2371,7 @@ var Login = /** @class */ (function (_super) {
                 switch (_a.label) {
                     case 0:
                         if (!function () { return _this.IsLoggedIn() == false; }) return [3 /*break*/, 2];
+                        console.log(this.BASEURI);
                         username = document.getElementById("username");
                         password = document.getElementById("password");
                         tempReponse_1 = 0;

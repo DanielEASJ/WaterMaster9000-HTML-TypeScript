@@ -105,24 +105,24 @@ export class Sensors extends Config
         {
             if (this.dateFormatter.timeDifference(sensor.data.date) < 10)
             {
-                statusIcon.setAttribute("class", "fas fa-check float-right");
+                statusIcon.setAttribute("class", "fas fa-check text-success float-right");
                 statusIcon.setAttribute("title", "Sensoren fungerer som den skal.");
                 
             }
             else if (this.dateFormatter.timeDifference(sensor.data.date) > 10 && this.dateFormatter.timeDifference(sensor.data.date) < 20)
             {
-                statusIcon.setAttribute("class", "fas fa-exclamation float-right");
+                statusIcon.setAttribute("class", "fas fa-exclamation text-warning float-right");
                 statusIcon.setAttribute("title", "Sensoren har sprunget den seneste måling over!");
             }
             else
             {
-                statusIcon.setAttribute("class", "fas fa-skull-crossbones float-right");
+                statusIcon.setAttribute("class", "fas fa-skull-crossbones text-danger float-right");
                 statusIcon.setAttribute("title", "Sensoren måler ikke længere..!");
             }
         }
         else
         {
-            statusIcon.setAttribute("class", "fas fa-exclamation float-right");
+            statusIcon.setAttribute("class", "fas fa-exclamation text-warning float-right");
             statusIcon.setAttribute("title", "Sensoren har ikke foretaget sin første måling endnu.");
         }
 

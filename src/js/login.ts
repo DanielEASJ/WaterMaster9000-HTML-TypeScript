@@ -17,10 +17,11 @@ export class Login extends Config
         }
     }
 
-    async Login()
+    async Login(): Promise<void>
     {
         if (() => this.IsLoggedIn() == false)
         {
+            console.log(this.BASEURI);
             let username = document.getElementById("username") as HTMLInputElement;
             let password = document.getElementById("password") as HTMLInputElement;
 
@@ -35,7 +36,7 @@ export class Login extends Config
             if (tempReponse != 0)
             {
                 document.cookie = "USERID=" + tempReponse.toString();
-                this.status = true;                
+                this.status = true;
                 window.location.href = "index.htm";
             }
         }
