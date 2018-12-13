@@ -2357,6 +2357,7 @@ var Login = /** @class */ (function (_super) {
         _this.status = false;
         _this.curpath = window.location.pathname;
         _this.curpage = _this.curpath.substring(_this.curpath.lastIndexOf('/') + 1);
+        _this.Login = _this.Login.bind(_this);
         if (_this.curpage == "login.htm") {
             var btn = document.getElementById("btnLogin");
             btn.addEventListener("click", _this.Login);
@@ -2371,7 +2372,6 @@ var Login = /** @class */ (function (_super) {
                 switch (_a.label) {
                     case 0:
                         if (!function () { return _this.IsLoggedIn() == false; }) return [3 /*break*/, 2];
-                        console.log(this.BASEURI);
                         username = document.getElementById("username");
                         password = document.getElementById("password");
                         tempReponse_1 = 0;

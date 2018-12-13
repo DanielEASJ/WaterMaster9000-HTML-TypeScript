@@ -10,6 +10,8 @@ export class Login extends Config
     constructor()
     {
         super();
+        this.Login = this.Login.bind(this);
+
         if (this.curpage == "login.htm")
         {
             let btn = document.getElementById("btnLogin") as HTMLButtonElement;
@@ -21,7 +23,6 @@ export class Login extends Config
     {
         if (() => this.IsLoggedIn() == false)
         {
-            console.log(this.BASEURI);
             let username = document.getElementById("username") as HTMLInputElement;
             let password = document.getElementById("password") as HTMLInputElement;
 
